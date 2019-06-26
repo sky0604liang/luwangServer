@@ -76,10 +76,10 @@
         </dependency>
 
         <!-- redis -->
-        <dependency>
+       <!-- <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- 其他jar包 -->
         <dependency>

@@ -9,6 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class QualityManagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(QualityManagementApplication.class, args);
+        SpringApplication.run(QualityManagementApplication.class,args);
     }
 }
