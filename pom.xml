@@ -7,7 +7,7 @@
     <groupId>com.nnmzkj</groupId>
     <artifactId>luwangServer</artifactId>
     <version>1.0.0</version>
-
+    <packaging>pom</packaging>
     <name>LuwangServer</name>
 
     <parent>
