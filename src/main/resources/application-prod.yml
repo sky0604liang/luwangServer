@@ -1,0 +1,25 @@
+# 自定义设置
+global-config:
+  druidName: admin
+  druidPwd: 736.water
+  imgPath: /home/water/imgs/
+
+spring: 
+  redis:
+    database: 1
+    host: 127.0.0.1
+    password: Rds862933Is
+    port: 6379
+    timeout: 3000ms
+    jedis:
+      pool:
+        max-idle: 1000
+        min-idle: 1
+        max-active: 1024
+        max-wait: 5000ms
+  datasource:
+    druid:
+      url: jdbc:oracle:thin:@127.0.0.1:1521:ora11
+      username: water
+      password: jky201904
+      driver-class-name: oracle.jdbc.OracleDriver

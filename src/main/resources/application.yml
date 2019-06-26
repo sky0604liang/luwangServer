@@ -1,0 +1,109 @@
+
+#server config
+server:
+  port: 80
+  servlet:
+    context-path: /
+  #spring boot tomcat config
+  tomcat:
+    max-threads: 500
+    min-spare-threads: 10
+    uri-encoding: UTF-8
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations:
+    - classpath*:mapper/*/*.xml
+  type-aliases-package: com.jky.common.entity,com.jky.account.entity,com.jky.business.entity
+spring:
+  profiles:
+    #config file
+    active: dev
+  #upload size config
+  servlet: 
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 1000Mb
+
+  #server date format
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    # druid config
+    druid: 
+      # 默认只读
+      # default-read-only: false
+      # 事务隔离级别
+      default-transaction-isolation: 2
+      # 初始化时建立物理连接的个数
+      initial-size: 5
+      # 最小连接池数量
+      min-idle: 1
+      # 最大连接池数量
+      max-active: 30
+      # 获取连接时最大等待时间，单位毫秒
+      max-wait: 60000 
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间
+      min-evictable-idle-time-millis: 300000
+      # 用来检测连接是否有效的sql，要求是一个查询语句
+      validation-query: SELECT 1 from dual
+      connection-init-sqls: SELECT 1 FROM dual
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于time-between-eviction-runs-millis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: true
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: true
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭。
+      pool-prepared-statements: true
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true
+      # max-pool-prepared-statement-per-connection-size: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计     wall防止sql注入
+      filters: stat,wall,slf4j
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+      # spring拦截记录,基于spring aop
+      aop-patterns:
+        - com.jky.*.mapper.*
+      # 显示session对应用户名(本系统未在对外seession中存放信息,仅在redis中存放)
+      # web-stat-filter:
+        # principal-session-name: user.name
+      filter:
+        stat:
+          # 慢sql记录
+          merge-sql: true
+          log-slow-sql: true
+          slow-sql-millis: 2000
+        # 配置禁止的语句
+        wall:
+          db-type: oracle
+          config:
+            truncate-allow: false
+            create-table-allow: false
+            alter-table-allow: false
+            drop-table-allow: false
+            delete-where-none-check: true
+            update-where-none-check: true
+            condition-and-alway-true-allow: true
+            condition-and-alway-false-allow: true
+            # 是否必须参数化,缺省关闭
+            # mustParameterized: true
+            # 严格语法检测,如果出现问题,关闭并提交bug
+            # strictSyntaxCheck: false
+        slf4j: 
+          enabled: true
+          # 隐藏结果集，并  不起作用
+          #result-set-log-enabled: false
+          #connection-log-enabled: false
+          #statement-log-enabled: false
+
+#log config
+logging:
+  level:
+    com.jky: debug
+    com.jky.common.mapper.OperatorLogMapper: info
+  config: classpath:logback.xml
