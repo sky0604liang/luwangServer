@@ -12,8 +12,8 @@ server:
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations:
-    - classpath*:mapper/*/*.xml
-  type-aliases-package: com.jky.common.entity,com.jky.account.entity,com.jky.business.entity
+    - classpath*:mapper/*.xml
+  type-aliases-package: com.nnmzkj.model,com.nnmzkj.dto
 spring:
   profiles:
     #config file

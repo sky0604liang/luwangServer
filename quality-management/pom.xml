@@ -19,32 +19,11 @@
     <name>quality-management</name>
 
 
-
     <dependencies>
 
 
     </dependencies>
 
-  <!--  <build>
-        <finalName>luwangServer</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                &lt;!&ndash;<version>1.4.2.RELEASE</version>&ndash;&gt;
-            </plugin>
-            &lt;!&ndash;mybatis生成器插件&ndash;&gt;
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <version>1.3.6</version>
-                <configuration>
-                    <verbose>true</verbose>
-                    &lt;!&ndash;是否覆盖原来java和相关文件 &ndash;&gt;
-                    <overwrite>false</overwrite>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>-->
+
 
 </project>
