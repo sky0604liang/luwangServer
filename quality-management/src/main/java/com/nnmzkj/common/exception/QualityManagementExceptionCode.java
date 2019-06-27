@@ -11,8 +11,7 @@ public enum QualityManagementExceptionCode {
 	 */
 	EXCEPTION_TEST(new QualityManagementExceptionMsg("8000","异常统一抛出测试")),
 	PAGE_IS_NULL(new QualityManagementExceptionMsg("8001","页码不能为空")),
-	OBJECT_NAME_IS_NULL(new QualityManagementExceptionMsg("8002","项目名称不能为空")),
-	FILE_PATH_IS_NULL(new QualityManagementExceptionMsg("8003","指定的文件路径不存在"))
+	FILE_FORMAT_IS_ERRO(new QualityManagementExceptionMsg("8002","文件格式错误"))
 	;
 
 	private QualityManagementExceptionMsg message;

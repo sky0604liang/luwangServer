@@ -1,8 +1,3 @@
-# 自定义设置
-global-config:
-  druidName: admin
-  druidPwd: 736.water
-  imgPath: D:/shuiwu/imgs/
 
 spring:
   datasource:
@@ -14,4 +9,4 @@ spring:
 
 file:
   path: file/**    #文件访问路径
-  address:  D://uploadFiles/  #文件保存路径
+  address:  D://uploadFiles/pdf/  #文件保存路径

@@ -3,6 +3,8 @@ package com.nnmzkj.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nnmzkj.common.core.PageMsg;
+import com.nnmzkj.common.exception.QualityManagementException;
+import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.dao.QualityProManagementMapper;
 import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +27,12 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     @Autowired
     private QualityProManagementMapper qualityProManagementMapper;
 
-    @Value("${file.address}") private String uploadPath;
+    private static List<String> accTypes = Arrays.asList(".jpg",".jpeg",".gif",".pdf",".png");
+
+    private String imgPath = "D://uploadFiles/img/";
+
+    @Value("${file.address}")
+    private String uploadPath;
 
     @Override
     public PageInfo getManagementList(PageMsg pageMsg) {
@@ -35,58 +43,40 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     }
 
     @Override
-    public int addObject(AddManagementDto addManagementDto  ) {
+    public void addObject(AddManagementDto addManagementDto) {
         MultipartFile blFile = addManagementDto.getBlFile();
         if (!blFile.isEmpty()){
-            String uploadDir = uploadPath;
             String fileName = "";
-            //如果目录不存在，自动创建文件夹
+            //格式校验
+            String suffix = addManagementDto.getBlFile().getOriginalFilename().substring(addManagementDto.getBlFile().getOriginalFilename().lastIndexOf("."));
+            if(!accTypes.contains(suffix)){
+                throw new QualityManagementException(QualityManagementExceptionCode.FILE_FORMAT_IS_ERRO);
+            }
+            if (!suffix.equals(".pdf")){
+                uploadPath = imgPath;
+            }
+            String uploadDir = uploadPath;
             File dir = new File(uploadDir);
             if (!dir.exists()) {
                 dir.mkdir();
-
             }
             try {
-                fileName = executeUpload(uploadDir, addManagementDto.getBlFile());
+                fileName = executeUpload(uploadDir, addManagementDto.getBlFile(),suffix);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            // String oldFileName = blFile.getOriginalFilename();
-          /*  //图片路径
-           // String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/upload/bl";
-            String path= "D:/img/;";
-            try {
-                path = ResourceUtils.getURL("classpath:").getPath()+"/static/up/";
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            String randomStr = UUID.randomUUID().toString();
-            String newFileName = randomStr + oldFileName.substring(oldFileName.lastIndexOf("."));
-            File file = new File(path,newFileName);
-            if(!file.getParentFile().exists()){
-                file.getParentFile().mkdirs();
-            }
-            try {
-                *//**
-                 * 将接收到的文件传输到给定的目标文件。
-                 *//*
-                blFile.transferTo(file);
-                System.out.println(path +newFileName);
-            } catch (IOException e) {
-                throw new QualityManagementException(QualityManagementExceptionCode.FILE_PATH_IS_NULL);
-            }
-            // blFile.transferTo(file);*/
+            //存储目录+文件名称 = 完整文件路径
+           String filePath =  uploadDir + fileName ;
+           addManagementDto.setStartFile(filePath);
         }
+        //存入资源表
 
-        //int status =qualityProManagementMapper.addObject(addManagementDto);
-       return 0;
+        //存入数据库
+        qualityProManagementMapper.addObject(addManagementDto);
     }
 
 
-    private String executeUpload(String uploadDir, MultipartFile file) throws Exception {
-        //文件后缀名
-        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+    private String executeUpload(String uploadDir, MultipartFile file,String suffix) throws Exception {
         //上传文件名
         String filename = UUID.randomUUID() + suffix;
         //服务器端保存的文件对象
@@ -99,14 +89,14 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
                 //创建文件
                 serverFile.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
         }
         //将上传的文件写入到服务器端文件内
         file.transferTo(serverFile);
-
         return filename;
     }
+
 
 
 }

@@ -26,5 +26,5 @@ public interface QualityProManagementMapper {
      */
     List<ObjectManagementListDto> selectAll();
 
-    int addObject(@Param("param") AddManagementDto addManagementDto);
+    int addObject(AddManagementDto addManagementDto);
 }

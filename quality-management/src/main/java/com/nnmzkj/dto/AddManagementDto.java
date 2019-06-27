@@ -13,7 +13,7 @@ public class AddManagementDto implements Serializable {
     private String proName;
 
     //建设办名称
-    private String buildName;
+    private Long buildId;
 
     //开工状态
     private Byte startStatus;
@@ -34,12 +34,12 @@ public class AddManagementDto implements Serializable {
         this.proName = proName;
     }
 
-    public String getBuildName() {
-        return buildName;
+    public Long getBuildId() {
+        return buildId;
     }
 
-    public void setBuildName(String buildName) {
-        this.buildName = buildName;
+    public void setBuildId(Long buildId) {
+        this.buildId = buildId;
     }
 
     public Byte getStartStatus() {
@@ -73,4 +73,6 @@ public class AddManagementDto implements Serializable {
     public void setBlFile(MultipartFile blFile) {
         this.blFile = blFile;
     }
+
+
 }

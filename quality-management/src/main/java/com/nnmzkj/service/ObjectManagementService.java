@@ -18,5 +18,5 @@ public interface ObjectManagementService {
      * @param addManagementDto
      * @return
      */
-    int addObject(AddManagementDto addManagementDto);
+    void addObject(AddManagementDto addManagementDto);
 }

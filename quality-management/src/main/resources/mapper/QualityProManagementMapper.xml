@@ -159,7 +159,7 @@
   </select>
 
 
-  <insert id="addObject" parameterType="com.nnmzkj.model.QualityProManagement">
+  <insert id="addObject" parameterType="com.nnmzkj.dto.AddManagementDto">
     insert into quality_pro_management
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="proName != null">
