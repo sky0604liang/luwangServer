@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnmzkj.dao.QualityProManagementMapper">
+  <resultMap id="BaseResultMap" type="com.nnmzkj.model.QualityProManagement">
+    <id column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="build_id" jdbcType="BIGINT" property="buildId" />
+    <result column="pre_status" jdbcType="TINYINT" property="preStatus" />
+    <result column="start_status" jdbcType="TINYINT" property="startStatus" />
+    <result column="start_file" jdbcType="VARCHAR" property="startFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_last_modified" jdbcType="TIMESTAMP" property="gmtLastModified" />
+  </resultMap>
+
+  <resultMap id="ObjectManagementListDtoMap" type="com.nnmzkj.dto.ObjectManagementListDto">
+    <id column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
+    <result column="start_status" jdbcType="TINYINT" property="startStatus" />
+    <result column="start_file" jdbcType="VARCHAR" property="startFile" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    pro_id, pro_name, build_id, pre_status, start_status, start_file, remark, gmt_create, 
+    gmt_last_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pro_management
+    where pro_id = #{proId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from quality_pro_management
+    where pro_id = #{proId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.nnmzkj.model.QualityProManagement">
+    insert into quality_pro_management (pro_id, pro_name, build_id, 
+      pre_status, start_status, start_file, 
+      remark, gmt_create, gmt_last_modified
+      )
+    values (#{proId,jdbcType=BIGINT}, #{proName,jdbcType=VARCHAR}, #{buildId,jdbcType=BIGINT}, 
+      #{preStatus,jdbcType=TINYINT}, #{startStatus,jdbcType=TINYINT}, #{startFile,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtLastModified,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nnmzkj.model.QualityProManagement">
+    insert into quality_pro_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        pro_id,
+      </if>
+      <if test="proName != null">
+        pro_name,
+      </if>
+      <if test="buildId != null">
+        build_id,
+      </if>
+      <if test="preStatus != null">
+        pre_status,
+      </if>
+      <if test="startStatus != null">
+        start_status,
+      </if>
+      <if test="startFile != null">
+        start_file,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proId != null">
+        #{proId,jdbcType=BIGINT},
+      </if>
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="buildId != null">
+        #{buildId,jdbcType=BIGINT},
+      </if>
+      <if test="preStatus != null">
+        #{preStatus,jdbcType=TINYINT},
+      </if>
+      <if test="startStatus != null">
+        #{startStatus,jdbcType=TINYINT},
+      </if>
+      <if test="startFile != null">
+        #{startFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nnmzkj.model.QualityProManagement">
+    update quality_pro_management
+    <set>
+      <if test="proName != null">
+        pro_name = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="buildId != null">
+        build_id = #{buildId,jdbcType=BIGINT},
+      </if>
+      <if test="preStatus != null">
+        pre_status = #{preStatus,jdbcType=TINYINT},
+      </if>
+      <if test="startStatus != null">
+        start_status = #{startStatus,jdbcType=TINYINT},
+      </if>
+      <if test="startFile != null">
+        start_file = #{startFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pro_id = #{proId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nnmzkj.model.QualityProManagement">
+    update quality_pro_management
+    set pro_name = #{proName,jdbcType=VARCHAR},
+      build_id = #{buildId,jdbcType=BIGINT},
+      pre_status = #{preStatus,jdbcType=TINYINT},
+      start_status = #{startStatus,jdbcType=TINYINT},
+      start_file = #{startFile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP}
+    where pro_id = #{proId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectAll" resultMap="ObjectManagementListDtoMap">
+    SELECT qpm.pro_id,qpm.pro_name,so.name AS build_name,qpm.start_status,qpm.start_file
+    FROM quality_pro_management AS qpm INNER JOIN sys_org AS so
+    <where>
+      qpm.build_id = so.org_id
+    </where>
+  </select>
+
+
+  <insert id="addObject" parameterType="com.nnmzkj.model.QualityProManagement">
+    insert into quality_pro_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="proName != null">
+        pro_name,
+      </if>
+      <if test="buildId != null">
+        build_id,
+      </if>
+      <if test="startStatus != null">
+        start_status,
+      </if>
+      <if test="startFile != null">
+        start_file,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="buildId != null">
+        #{buildId,jdbcType=BIGINT},
+      </if>
+      <if test="startStatus != null">
+        #{startStatus,jdbcType=TINYINT},
+      </if>
+      <if test="startFile != null">
+        #{startFile,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
