@@ -1,8 +1,10 @@
 package com.nnmzkj.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysOrg {
+public class SysOrg  implements Serializable {
+    private static final long serialVersionUID = -6078937587974587647L;
     private Long orgId;
 
     private Long parentId;

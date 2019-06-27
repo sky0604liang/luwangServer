@@ -6,18 +6,24 @@ import com.nnmzkj.common.core.PageMsg;
 import com.nnmzkj.common.exception.QualityManagementException;
 import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.dao.QualityProManagementMapper;
+import com.nnmzkj.dao.SysAssetMapper;
 import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
+import com.nnmzkj.model.SysAsset;
 import com.nnmzkj.service.ObjectManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +32,9 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
 
     @Autowired
     private QualityProManagementMapper qualityProManagementMapper;
+
+    @Autowired
+    private SysAssetMapper sysAssetMapper;
 
     private static List<String> accTypes = Arrays.asList(".jpg",".jpeg",".gif",".pdf",".png");
 
@@ -43,10 +52,10 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     }
 
     @Override
-    public void addObject(AddManagementDto addManagementDto) {
+    public void addProject(AddManagementDto addManagementDto) {
         MultipartFile blFile = addManagementDto.getBlFile();
-        if (!blFile.isEmpty()){
-            String fileName = "";
+        String fileName = "";
+        if ( blFile != null &&!blFile.isEmpty()){
             //格式校验
             String suffix = addManagementDto.getBlFile().getOriginalFilename().substring(addManagementDto.getBlFile().getOriginalFilename().lastIndexOf("."));
             if(!accTypes.contains(suffix)){
@@ -74,8 +83,11 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
         if (status >0){
             throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_IS_MORE);
         }else {
-            qualityProManagementMapper.addObject(addManagementDto);
+            qualityProManagementMapper.addProject(addManagementDto);
+            Long objectKey = addManagementDto.getProId();
             //存入资源表
+            SysAsset sysAsset = new SysAsset(addManagementDto.getStartFile(),fileName,addManagementDto.getBlFile().getSize(),new Date(),objectKey);
+            sysAssetMapper.insertSelective(sysAsset);
         }
     }
 
@@ -100,7 +112,6 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
         file.transferTo(serverFile);
         return filename;
     }
-
 
 
 }

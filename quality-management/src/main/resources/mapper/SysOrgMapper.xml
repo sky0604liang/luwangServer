@@ -125,4 +125,9 @@
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where org_id = #{orgId,jdbcType=BIGINT}
   </update>
+
+  <select id="getAllOrg" resultMap="BaseResultMap">
+    select *
+    from sys_org
+  </select>
 </mapper>

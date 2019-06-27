@@ -2,6 +2,8 @@ package com.nnmzkj.dao;
 
 import com.nnmzkj.model.SysOrg;
 
+import java.util.List;
+
 public interface SysOrgMapper {
     int deleteByPrimaryKey(Long orgId);
 
@@ -14,4 +16,6 @@ public interface SysOrgMapper {
     int updateByPrimaryKeySelective(SysOrg record);
 
     int updateByPrimaryKey(SysOrg record);
+
+    List<SysOrg> getAllOrg();
 }
