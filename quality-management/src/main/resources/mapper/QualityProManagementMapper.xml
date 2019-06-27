@@ -190,4 +190,11 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectObjectInfo" resultType="java.lang.Integer">
+    SELECT
+    COUNT(1)
+    FROM quality_pro_management
+    WHERE pro_name = #{proName}
+  </select>
 </mapper>

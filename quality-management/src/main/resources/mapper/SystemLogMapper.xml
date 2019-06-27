@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnmzkj.dao.SystemLogMapper">
+  <resultMap id="BaseResultMap" type="com.nnmzkj.model.SystemLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="page" jdbcType="VARCHAR" property="page" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, admin_id, admin_name, path, page, ip, add_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from system_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nnmzkj.model.SystemLog">
+    insert into system_log (id, admin_id, admin_name, 
+      path, page, ip, add_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, 
+      #{path,jdbcType=VARCHAR}, #{page,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nnmzkj.model.SystemLog">
+    insert into system_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="path != null">
+        path,
+      </if>
+      <if test="page != null">
+        page,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null">
+        #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nnmzkj.model.SystemLog">
+    update system_log
+    <set>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null">
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="page != null">
+        page = #{page,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nnmzkj.model.SystemLog">
+    update system_log
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      path = #{path,jdbcType=VARCHAR},
+      page = #{page,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

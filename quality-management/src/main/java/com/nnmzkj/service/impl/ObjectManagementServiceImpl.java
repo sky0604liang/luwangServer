@@ -50,7 +50,7 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
             //格式校验
             String suffix = addManagementDto.getBlFile().getOriginalFilename().substring(addManagementDto.getBlFile().getOriginalFilename().lastIndexOf("."));
             if(!accTypes.contains(suffix)){
-                throw new QualityManagementException(QualityManagementExceptionCode.FILE_FORMAT_IS_ERRO);
+                throw new QualityManagementException(QualityManagementExceptionCode.FILE_FORMAT_IS_ERROR);
             }
             if (!suffix.equals(".pdf")){
                 uploadPath = imgPath;
@@ -69,10 +69,14 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
            String filePath =  uploadDir + fileName ;
            addManagementDto.setStartFile(filePath);
         }
-        //存入资源表
-
         //存入数据库
-        qualityProManagementMapper.addObject(addManagementDto);
+        int status = qualityProManagementMapper.selectObjectInfo(addManagementDto.getProName());
+        if (status >0){
+            throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_IS_MORE);
+        }else {
+            qualityProManagementMapper.addObject(addManagementDto);
+            //存入资源表
+        }
     }
 
 
