@@ -3,20 +3,17 @@ package com.nnmzkj.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.nnmzkj.common.core.PageMsg;
-import com.nnmzkj.common.exception.QualityManagementException;
-import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.dao.QualityProManagementMapper;
 import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
 import com.nnmzkj.service.ObjectManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +24,7 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     @Autowired
     private QualityProManagementMapper qualityProManagementMapper;
 
+    @Value("${file.address}") private String uploadPath;
 
     @Override
     public PageInfo getManagementList(PageMsg pageMsg) {
@@ -37,12 +35,32 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     }
 
     @Override
-    public int addObject(AddManagementDto addManagementDto) {
+    public int addObject(AddManagementDto addManagementDto  ) {
         MultipartFile blFile = addManagementDto.getBlFile();
         if (!blFile.isEmpty()){
-            String oldFileName = blFile.getOriginalFilename();
-            //图片路径
-            String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/upload/bl";
+            String uploadDir = uploadPath;
+            String fileName = "";
+            //如果目录不存在，自动创建文件夹
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdir();
+
+            }
+            try {
+                fileName = executeUpload(uploadDir, addManagementDto.getBlFile());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // String oldFileName = blFile.getOriginalFilename();
+          /*  //图片路径
+           // String path = ClassUtils.getDefaultClassLoader().getResource("").getPath()+"static/upload/bl";
+            String path= "D:/img/;";
+            try {
+                path = ResourceUtils.getURL("classpath:").getPath()+"/static/up/";
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
             String randomStr = UUID.randomUUID().toString();
             String newFileName = randomStr + oldFileName.substring(oldFileName.lastIndexOf("."));
             File file = new File(path,newFileName);
@@ -50,15 +68,15 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
                 file.getParentFile().mkdirs();
             }
             try {
-                /**
+                *//**
                  * 将接收到的文件传输到给定的目标文件。
-                 */
+                 *//*
                 blFile.transferTo(file);
                 System.out.println(path +newFileName);
             } catch (IOException e) {
                 throw new QualityManagementException(QualityManagementExceptionCode.FILE_PATH_IS_NULL);
             }
-            // blFile.transferTo(file);
+            // blFile.transferTo(file);*/
         }
 
         //int status =qualityProManagementMapper.addObject(addManagementDto);
@@ -66,62 +84,29 @@ public class ObjectManagementServiceImpl implements ObjectManagementService {
     }
 
 
-    public boolean isSameFile(String fileName1,String fileName2){
-        FileInputStream fis1 = null;
-        FileInputStream fis2 = null;
-        try {
-            fis1 = new FileInputStream(fileName1);
-            fis2 = new FileInputStream(fileName2);
+    private String executeUpload(String uploadDir, MultipartFile file) throws Exception {
+        //文件后缀名
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        //上传文件名
+        String filename = UUID.randomUUID() + suffix;
+        //服务器端保存的文件对象
+        File serverFile = new File(uploadDir + filename);
 
-            int len1 = fis1.available();//返回总的字节数
-            int len2 = fis2.available();
-
-            if (len1 == len2) {//长度相同，则比较具体内容
-                //建立两个字节缓冲区
-                byte[] data1 = new byte[len1];
-                byte[] data2 = new byte[len2];
-
-                //分别将两个文件的内容读入缓冲区
-                fis1.read(data1);
-                fis2.read(data2);
-
-                //依次比较文件中的每一个字节
-                for (int i=0; i<len1; i++) {
-                    //只要有一个字节不同，两个文件就不一样
-                    if (data1[i] != data2[i]) {
-                        System.out.println("文件内容不一样");
-                        return false;
-                    }
-                }
-                System.out.println("两个文件完全相同");
-                return true;
-            } else {
-                //长度不一样，文件肯定不同
-                return false;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {//关闭文件流，防止内存泄漏
-            if (fis1 != null) {
-                try {
-                    fis1.close();
-                } catch (IOException e) {
-                    //忽略
-                    e.printStackTrace();
-                }
-            }
-            if (fis2 != null) {
-                try {
-                    fis2.close();
-                } catch (IOException e) {
-                    //忽略
-                    e.printStackTrace();
-                }
+        if(!serverFile.exists()) {
+            //先得到文件的上级目录，并创建上级目录，在创建文件
+            serverFile.getParentFile().mkdir();
+            try {
+                //创建文件
+                serverFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return false;
+        //将上传的文件写入到服务器端文件内
+        file.transferTo(serverFile);
+
+        return filename;
     }
+
 
 }

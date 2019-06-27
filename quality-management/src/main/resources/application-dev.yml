@@ -7,7 +7,11 @@ global-config:
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/lu_wang?useUnicode=true&characterEncoding=utf-8&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false
       username: root
       password: root
       driver-class-name: com.mysql.jdbc.Driver
+
+file:
+  path: file/**    #文件访问路径
+  address:  D://uploadFiles/  #文件保存路径
