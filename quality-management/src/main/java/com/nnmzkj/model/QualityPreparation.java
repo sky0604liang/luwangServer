@@ -1,8 +1,10 @@
 package com.nnmzkj.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class QualityPreparation {
+public class QualityPreparation implements Serializable {
+    private static final long serialVersionUID = -5350574567843150457L;
     private Long preId;
 
     private Long proId;

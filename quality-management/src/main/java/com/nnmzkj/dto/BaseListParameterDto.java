@@ -5,13 +5,13 @@ import com.nnmzkj.common.core.PageMsg;
 public class BaseListParameterDto extends PageMsg {
     private static final long serialVersionUID = 5890965823739082620L;
 
-    private Long builId;
+    private Long buildId;
 
-    public Long getBuilId() {
-        return builId;
+    public Long getBuildId() {
+        return buildId;
     }
 
-    public void setBuilId(Long builId) {
-        this.builId = builId;
+    public void setBuildId(Long buildId) {
+        this.buildId = buildId;
     }
 }

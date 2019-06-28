@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnmzkj.dao.QualityProApprovalMapper">
+  <resultMap id="BaseResultMap" type="com.nnmzkj.model.QualityProApproval">
+    <id column="approval_id" jdbcType="BIGINT" property="approvalId" />
+    <result column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="approval_content" jdbcType="VARCHAR" property="approvalContent" />
+    <result column="approval_file" jdbcType="VARCHAR" property="approvalFile" />
+    <result column="application_time" jdbcType="DATE" property="applicationTime" />
+    <result column="reply_time" jdbcType="DATE" property="replyTime" />
+    <result column="approval_status" jdbcType="TINYINT" property="approvalStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_last_modified" jdbcType="TIMESTAMP" property="gmtLastModified" />
+  </resultMap>
+
+  <resultMap id="QualityProApprovalListDtoMap" type="com.nnmzkj.dto.QualityProApprovalListDto">
+    <result column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="build_id" jdbcType="BIGINT" property="buildId" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List">
+    approval_id, pro_id, approval_content, approval_file, application_time, reply_time, 
+    approval_status, remark, gmt_create, gmt_last_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pro_approval
+    where approval_id = #{approvalId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from quality_pro_approval
+    where approval_id = #{approvalId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.nnmzkj.model.QualityProApproval">
+    insert into quality_pro_approval (approval_id, pro_id, approval_content, 
+      approval_file, application_time, reply_time, 
+      approval_status, remark, gmt_create, 
+      gmt_last_modified)
+    values (#{approvalId,jdbcType=BIGINT}, #{proId,jdbcType=BIGINT}, #{approvalContent,jdbcType=VARCHAR}, 
+      #{approvalFile,jdbcType=VARCHAR}, #{applicationTime,jdbcType=DATE}, #{replyTime,jdbcType=DATE}, 
+      #{approvalStatus,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtLastModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nnmzkj.model.QualityProApproval">
+    insert into quality_pro_approval
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        approval_id,
+      </if>
+      <if test="proId != null">
+        pro_id,
+      </if>
+      <if test="approvalContent != null">
+        approval_content,
+      </if>
+      <if test="approvalFile != null">
+        approval_file,
+      </if>
+      <if test="applicationTime != null">
+        application_time,
+      </if>
+      <if test="replyTime != null">
+        reply_time,
+      </if>
+      <if test="approvalStatus != null">
+        approval_status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approvalId != null">
+        #{approvalId,jdbcType=BIGINT},
+      </if>
+      <if test="proId != null">
+        #{proId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalContent != null">
+        #{approvalContent,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalFile != null">
+        #{approvalFile,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null">
+        #{applicationTime,jdbcType=DATE},
+      </if>
+      <if test="replyTime != null">
+        #{replyTime,jdbcType=DATE},
+      </if>
+      <if test="approvalStatus != null">
+        #{approvalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nnmzkj.model.QualityProApproval">
+    update quality_pro_approval
+    <set>
+      <if test="proId != null">
+        pro_id = #{proId,jdbcType=BIGINT},
+      </if>
+      <if test="approvalContent != null">
+        approval_content = #{approvalContent,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalFile != null">
+        approval_file = #{approvalFile,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationTime != null">
+        application_time = #{applicationTime,jdbcType=DATE},
+      </if>
+      <if test="replyTime != null">
+        reply_time = #{replyTime,jdbcType=DATE},
+      </if>
+      <if test="approvalStatus != null">
+        approval_status = #{approvalStatus,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where approval_id = #{approvalId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nnmzkj.model.QualityProApproval">
+    update quality_pro_approval
+    set pro_id = #{proId,jdbcType=BIGINT},
+      approval_content = #{approvalContent,jdbcType=VARCHAR},
+      approval_file = #{approvalFile,jdbcType=VARCHAR},
+      application_time = #{applicationTime,jdbcType=DATE},
+      reply_time = #{replyTime,jdbcType=DATE},
+      approval_status = #{approvalStatus,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP}
+    where approval_id = #{approvalId,jdbcType=BIGINT}
+  </update>
+
+  <select id="getAllList" resultType="java.lang.Integer">
+    SELECT COUNT(1)
+    FROM quality_pro_approval
+    <where>
+      pro_id = #{proId}
+      <if test="status != null">
+       and approval_status = #{status}
+      </if>
+    </where>
+  </select>
+
+  <select id="list" resultMap="QualityProApprovalListDtoMap">
+    SELECT qpm.pro_id,qpm.build_id,qpm.pro_name,
+    so.name as build_name
+    FROM quality_pro_management as qpm INNER JOIN sys_org as so
+    WHERE qpm.build_id = so.org_id
+    <where>
+      <if test="buildId != null">
+        and so.org_id = #{buildId}
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/object/management")
+@RequestMapping("/project/management")
 public class ProjectManagementController {
 
     @Autowired
@@ -39,17 +39,17 @@ public class ProjectManagementController {
 
     //项目管理列表
     @GetMapping("/list")
-    public PageInfo getManagementList(PageMsg pageMsg){
+    public Result getManagementList(PageMsg pageMsg){
         if (StringUtils.isEmpty(pageMsg)){
             throw new QualityManagementException(QualityManagementExceptionCode.PAGE_IS_NULL);
         }
         PageInfo list = projectManagementService.getManagementList(pageMsg);
-        return  list;
+        return ResultGenerator.genSuccessResult(list);
     }
 
     @MyLog(value = "新增项目")  //这里添加了AOP的自定义注解
     //新增项目管理
-    @PostMapping("/add/object")
+    @PostMapping("/add")
     public Result addProject(AddManagementDto addManagementDto){
         if (StringUtils.isEmpty(addManagementDto) && StringUtil.isNotEmpty(addManagementDto.getProName())){
             throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_NAME_IS_NULL);

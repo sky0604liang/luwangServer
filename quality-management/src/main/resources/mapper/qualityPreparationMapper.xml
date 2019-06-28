@@ -142,7 +142,14 @@
          so.org_id = #{buildId}
        </if>
      </where>
+  </select>
 
-</select>
+  <select id="selectPreparationInfoByProId" resultMap="BaseResultMap">
+    SELECT pro_id, pre_id,pre_content,pre_file
+    FROM quality_pro_pre
+    <where>
+      pro_id = #{proId}
+    </where>
+  </select>
 
 </mapper>

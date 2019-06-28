@@ -20,4 +20,6 @@ public interface QualityPreparationMapper {
     int updateByPrimaryKey(QualityPreparation record);
 
     List<PreparationListDto> list(@Param("buildId") Long orgId);
+
+    List<QualityPreparation> selectPreparationInfoByProId(@Param("proId") Long proId);
 }
