@@ -1,19 +1,17 @@
 package com.nnmzkj.dto;
 
-
-
-
-
 import java.io.Serializable;
 
-public class ObjectManagementListDto implements Serializable {
+public class UpdateProjectInfoDto implements Serializable {
+    private static final long serialVersionUID = -5326394950778684731L;
 
-    private static final long serialVersionUID = 6855690377354751473L;
-    //id
-    private Long proId;
+    private Long ProId;
 
     //项目名称名称
     private String proName;
+
+    //建设办Id
+    private Long buildId;
 
     //建设办名称
     private String buildName;
@@ -22,20 +20,13 @@ public class ObjectManagementListDto implements Serializable {
     private Byte startStatus;
 
 
-    //文件Url
-    private String startFile;
-
-
-    public ObjectManagementListDto(Long proId) {
-        this.proId = proId;
-    }
 
     public Long getProId() {
-        return proId;
+        return ProId;
     }
 
     public void setProId(Long proId) {
-        this.proId = proId;
+        ProId = proId;
     }
 
     public String getProName() {
@@ -44,6 +35,14 @@ public class ObjectManagementListDto implements Serializable {
 
     public void setProName(String proName) {
         this.proName = proName;
+    }
+
+    public Long getBuildId() {
+        return buildId;
+    }
+
+    public void setBuildId(Long buildId) {
+        this.buildId = buildId;
     }
 
     public String getBuildName() {
@@ -62,14 +61,7 @@ public class ObjectManagementListDto implements Serializable {
         this.startStatus = startStatus;
     }
 
-    public String getStartFile() {
-        return startFile;
-    }
 
-    public void setStartFile(String startFile) {
-        this.startFile = startFile;
-    }
-
-    public ObjectManagementListDto() {
+    public UpdateProjectInfoDto() {
     }
 }

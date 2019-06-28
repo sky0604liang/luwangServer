@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnmzkj.dao.QualityPreparationMapper">
+  <resultMap id="BaseResultMap" type="com.nnmzkj.model.QualityPreparation">
+    <id column="pre_id" jdbcType="BIGINT" property="preId" />
+    <result column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pre_content" jdbcType="VARCHAR" property="preContent" />
+    <result column="pre_file" jdbcType="VARCHAR" property="preFile" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_last_modified" jdbcType="TIMESTAMP" property="gmtLastModified" />
+  </resultMap>
+
+
+  <resultMap id="PreparationListDtoMap" type="com.nnmzkj.dto.PreparationListDto">
+    <id column="pre_id" jdbcType="BIGINT" property="preId" />
+    <result column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
+    <result column="build_id" jdbcType="BIGINT" property="buildId" />
+    <result column="pre_status" jdbcType="VARCHAR" property="preStatus" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List">
+    pre_id, pro_id, pre_content, pre_file, remark, gmt_create, gmt_last_modified
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from quality_pro_pre
+    where pre_id = #{preId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from quality_pro_pre
+    where pre_id = #{preId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.nnmzkj.model.QualityPreparation">
+    insert into quality_pro_pre (pre_id, pro_id, pre_content, 
+      pre_file, remark, gmt_create, 
+      gmt_last_modified)
+    values (#{preId,jdbcType=BIGINT}, #{proId,jdbcType=BIGINT}, #{preContent,jdbcType=VARCHAR}, 
+      #{preFile,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, 
+      #{gmtLastModified,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nnmzkj.model.QualityPreparation">
+    insert into quality_pro_pre
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="preId != null">
+        pre_id,
+      </if>
+      <if test="proId != null">
+        pro_id,
+      </if>
+      <if test="preContent != null">
+        pre_content,
+      </if>
+      <if test="preFile != null">
+        pre_file,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="preId != null">
+        #{preId,jdbcType=BIGINT},
+      </if>
+      <if test="proId != null">
+        #{proId,jdbcType=BIGINT},
+      </if>
+      <if test="preContent != null">
+        #{preContent,jdbcType=VARCHAR},
+      </if>
+      <if test="preFile != null">
+        #{preFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nnmzkj.model.QualityPreparation">
+    update quality_pro_pre
+    <set>
+      <if test="proId != null">
+        pro_id = #{proId,jdbcType=BIGINT},
+      </if>
+      <if test="preContent != null">
+        pre_content = #{preContent,jdbcType=VARCHAR},
+      </if>
+      <if test="preFile != null">
+        pre_file = #{preFile,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtLastModified != null">
+        gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where pre_id = #{preId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nnmzkj.model.QualityPreparation">
+    update quality_pro_pre
+    set pro_id = #{proId,jdbcType=BIGINT},
+      pre_content = #{preContent,jdbcType=VARCHAR},
+      pre_file = #{preFile,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_last_modified = #{gmtLastModified,jdbcType=TIMESTAMP}
+    where pre_id = #{preId,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="list" resultMap="PreparationListDtoMap">
+   SELECT qpm.pro_id,qpm.build_id,qpm.pro_name,qpm.pre_status,
+    so.name as build_name,
+    qpp.pre_id
+    FROM quality_pro_management as qpm INNER JOIN sys_org as so
+    ON qpm.build_id = so.org_id
+    LEFT JOIN quality_pro_pre AS qpp
+    ON qpm.pro_id = qpp.pro_id
+     <where>
+       <if test="buildId != null">
+         so.org_id = #{buildId}
+       </if>
+     </where>
+
+</select>
+
+</mapper>

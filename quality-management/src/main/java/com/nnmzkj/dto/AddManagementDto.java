@@ -18,7 +18,6 @@ public class AddManagementDto implements Serializable {
     //开工状态
     private Byte startStatus;
 
-
     //文件Url
     private String startFile;
 

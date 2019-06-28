@@ -10,14 +10,16 @@ import com.nnmzkj.common.exception.QualityManagementException;
 import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.config.log.MyLog;
 import com.nnmzkj.dto.AddManagementDto;
+import com.nnmzkj.dto.UpdateProjectInfoDto;
 import com.nnmzkj.model.SysOrg;
-import com.nnmzkj.service.ObjectManagementService;
+import com.nnmzkj.service.ProjectManagementService;
+import com.nnmzkj.service.SysAssetService;
 import com.nnmzkj.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +29,13 @@ import java.util.Map;
 public class ProjectManagementController {
 
     @Autowired
-    private ObjectManagementService objectManagementService;
+    private ProjectManagementService projectManagementService;
 
     @Autowired
     private SysOrgService sysOrgService;
+
+    @Autowired
+    private SysAssetService sysAssetService;
 
     //项目管理列表
     @GetMapping("/list")
@@ -38,7 +43,7 @@ public class ProjectManagementController {
         if (StringUtils.isEmpty(pageMsg)){
             throw new QualityManagementException(QualityManagementExceptionCode.PAGE_IS_NULL);
         }
-        PageInfo list = objectManagementService.getManagementList(pageMsg);
+        PageInfo list = projectManagementService.getManagementList(pageMsg);
         return  list;
     }
 
@@ -49,7 +54,7 @@ public class ProjectManagementController {
         if (StringUtils.isEmpty(addManagementDto) && StringUtil.isNotEmpty(addManagementDto.getProName())){
             throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_NAME_IS_NULL);
         }
-        objectManagementService.addProject(addManagementDto);
+        projectManagementService.addProject(addManagementDto);
         return ResultGenerator.genSuccessResult();
     }
 
@@ -58,7 +63,26 @@ public class ProjectManagementController {
     public void toAddInfo(){
         //获取所有机构
         List<SysOrg> orgList = sysOrgService.getAllOrg();
+    }
 
+    @GetMapping("/to/update")
+    public Result toUpdate(Long proId){
+        Map<String, Object> map = projectManagementService.toUpdate(proId);
+        return ResultGenerator.genSuccessResult(map);
+    }
+
+    @MyLog(value = "编辑项目信息")  //这里添加了AOP的自定义注解
+    //编辑项目信息
+    @PostMapping("update/project")
+    public void updateProject(@RequestBody UpdateProjectInfoDto updateProjectInfoDto){
+        projectManagementService.updateProject(updateProjectInfoDto);
+    }
+
+    @MyLog(value = "删除项目文件")  //这里添加了AOP的自定义注解
+    //编辑项目信息
+    @DeleteMapping("delete/asset")
+    public void deleteAsset(Long assetId){
+        sysAssetService.deleteAsset(assetId);
     }
 
 }

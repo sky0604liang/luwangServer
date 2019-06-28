@@ -22,6 +22,15 @@
   </resultMap>
 
 
+  <resultMap id="UpdateProjectInfoDtoMap" type="com.nnmzkj.dto.UpdateProjectInfoDto">
+    <id column="pro_id" jdbcType="BIGINT" property="proId" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
+    <result column="start_status" jdbcType="TINYINT" property="startStatus" />
+  </resultMap>
+
+
+
   <sql id="Base_Column_List">
     pro_id, pro_name, build_id, pre_status, start_status, start_file, remark, gmt_create, 
     gmt_last_modified
@@ -197,4 +206,30 @@
     FROM quality_pro_management
     WHERE pro_name = #{proName}
   </select>
+
+  <select id="toUpdate" resultMap="UpdateProjectInfoDtoMap">
+    SELECT qpm.pro_name,qpm.build_id,qpm.start_status,
+    so.name as build_name
+    FROM quality_pro_management as qpm INNER JOIN sys_org as so
+    <where>
+      so.org_id = qpm.build_id AND qpm.pro_id = #{proId}
+    </where>
+  </select>
+
+  <update id="updateProject">
+    update quality_pro_management
+    <set>
+      <if test="param.proName != null">
+        pro_name = #{param.proName,jdbcType=VARCHAR},
+      </if>
+      <if test="param.buildId != null">
+        build_id = #{param.buildId,jdbcType=BIGINT},
+      </if>
+      <if test="param.startStatus != null">
+        start_status = #{param.startStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where pro_id = #{param.proId,jdbcType=BIGINT}
+  </update>
+
 </mapper>

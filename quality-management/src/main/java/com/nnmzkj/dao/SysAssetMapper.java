@@ -1,6 +1,9 @@
 package com.nnmzkj.dao;
 
 import com.nnmzkj.model.SysAsset;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SysAssetMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,6 @@ public interface SysAssetMapper {
     int updateByPrimaryKeySelective(SysAsset record);
 
     int updateByPrimaryKey(SysAsset record);
+
+    List<SysAsset> getProjectAssetByProId(@Param("proId") Long proId);
 }

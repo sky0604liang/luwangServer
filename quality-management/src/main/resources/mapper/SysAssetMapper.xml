@@ -9,6 +9,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="quality_pro_id" jdbcType="BIGINT" property="qualityProId" />
   </resultMap>
+
+
+
   <sql id="Base_Column_List">
     id, file_url, file_name, create_time, quality_pro_id
   </sql>
@@ -97,4 +100,12 @@
       quality_pro_id = #{qualityProId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="getProjectAssetByProId" resultMap="BaseResultMap">
+    SELECT *
+    FROM sys_asset
+    <where>
+      quality_pro_id = #{proId}
+    </where>
+  </select>
 </mapper>

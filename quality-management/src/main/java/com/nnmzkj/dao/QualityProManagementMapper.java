@@ -2,6 +2,7 @@ package com.nnmzkj.dao;
 
 import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
+import com.nnmzkj.dto.UpdateProjectInfoDto;
 import com.nnmzkj.model.QualityProManagement;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,8 @@ public interface QualityProManagementMapper {
     int addProject(AddManagementDto addManagementDto);
 
     int selectObjectInfo(@Param("proName") String proName);
+
+    UpdateProjectInfoDto toUpdate(@Param("proId") Long proId);
+
+    void updateProject(@Param("param") UpdateProjectInfoDto updateProjectInfoDto);
 }

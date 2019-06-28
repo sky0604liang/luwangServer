@@ -4,8 +4,11 @@ package com.nnmzkj.service;
 import com.github.pagehelper.PageInfo;
 import com.nnmzkj.common.core.PageMsg;
 import com.nnmzkj.dto.AddManagementDto;
+import com.nnmzkj.dto.UpdateProjectInfoDto;
 
-public interface ObjectManagementService {
+import java.util.Map;
+
+public interface ProjectManagementService {
     /**
      * 获取项目管理列表
      * @param pageMsg
@@ -19,4 +22,8 @@ public interface ObjectManagementService {
      * @return
      */
     void addProject(AddManagementDto addManagementDto);
+
+    Map<String,Object> toUpdate(Long proId);
+
+    void updateProject(UpdateProjectInfoDto updateProjectInfoDto);
 }
