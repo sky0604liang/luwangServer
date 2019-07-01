@@ -6,10 +6,14 @@ import com.nnmzkj.common.core.Result;
 import com.nnmzkj.common.core.ResultGenerator;
 import com.nnmzkj.config.log.MyLog;
 import com.nnmzkj.dto.BaseListParameterDto;
+import com.nnmzkj.dto.QualityProApprovalListDto;
 import com.nnmzkj.model.QualityProApproval;
 import com.nnmzkj.service.QualityProApprovalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/approval")
