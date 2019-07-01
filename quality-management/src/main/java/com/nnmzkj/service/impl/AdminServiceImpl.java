@@ -1,6 +1,7 @@
 package com.nnmzkj.service.impl;
 
 
+import com.nnmzkj.common.core.RedisService;
 import com.nnmzkj.common.exception.QualityManagementException;
 import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.common.utils.IpUtils;
@@ -12,10 +13,8 @@ import com.nnmzkj.model.SysMenu;
 import com.nnmzkj.model.SysUser;
 import com.nnmzkj.model.SystemLog;
 import com.nnmzkj.service.AdminService;
-import com.nnmzkj.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,22 +34,25 @@ import java.util.List;
 
 @Service
 public class AdminServiceImpl implements AdminService, UserDetailsService {
-//    @Autowired
-//    private UserDetailsService userDetailsService;
+
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
+
+
     @Autowired
     private SysUserMapper adminMapper;
 
     @Autowired
     private SystemLogMapper systemLogMapper;
 
-
-
+    @Autowired
+    private RedisService redisService;
 
 
     /**
@@ -91,7 +93,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
             //登陆成功,获取用户完整信息
-           Long userId = adminMapper.getUserInfo(username);
+            Long userId = adminMapper.getUserInfo(username);
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String ipAddr = IpUtils.getIpAddr(request);
             String loginPath="http://"+ ipAddr +"/user/login";
@@ -100,6 +102,15 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
         } catch (AuthenticationException e) {
         }
         return token;
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+        String[] split = header.split("\\s+");
+        String token = split[1];
+        String s = jwtTokenUtil.refreshToken(token);
+        System.out.println(s);
     }
 
     @Override

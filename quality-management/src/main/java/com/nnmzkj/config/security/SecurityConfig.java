@@ -1,6 +1,7 @@
 package com.nnmzkj.config.security;
 
 
+import com.nnmzkj.common.core.RedisService;
 import com.nnmzkj.config.jwt.JwtAuthenticationTokenFilter;
 import com.nnmzkj.config.jwt.RestAuthenticationEntryPoint;
 import com.nnmzkj.config.jwt.RestfulAccessDeniedHandler;
@@ -20,7 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.List;
+
 
 
 @Configuration
@@ -113,6 +114,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public RedisService redisService(){
+      return new RedisService();
     }
 
 }

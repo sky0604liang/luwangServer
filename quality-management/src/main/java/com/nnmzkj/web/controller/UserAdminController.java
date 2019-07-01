@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class UserAdminController {
     private String tokenHeader;
     @Value("${jwt.tokenHead}")
     private String tokenHead;
+
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
@@ -48,5 +50,12 @@ public class UserAdminController {
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
         return ResultGenerator.genSuccessResult(tokenMap);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @ResponseBody
+    public Result logout(HttpServletRequest request) {
+        adminService.logout(request);
+        return  ResultGenerator.genSuccessResult();
     }
 }
