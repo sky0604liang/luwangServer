@@ -15,6 +15,21 @@
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="dept_id" jdbcType="BIGINT" property="deptId" />
   </resultMap>
+
+
+  <resultMap id="PermissionMap" type="com.nnmzkj.model.SysMenu">
+    <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="perms" jdbcType="VARCHAR" property="perms" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     user_id, org_id, username, password, email, mobile, status, remark, user_id_create, 
     gmt_create, gmt_modified, dept_id
@@ -174,4 +189,40 @@
       dept_id = #{deptId,jdbcType=BIGINT}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
+
+  <select id="checkAdmin" resultType="java.lang.Integer">
+    SELECT COUNT( 1 )
+    FROM sys_user
+    <where>
+      username = #{userName}
+    </where>
+  </select>
+
+  <select id="getAdminByUserName" resultMap="BaseResultMap">
+    select *
+    from sys_user
+    <where>
+      username = #{userName}
+    </where>
+  </select>
+
+  <select id="getPermissionList" parameterType="java.lang.Long" resultMap="PermissionMap">
+    SELECT
+	sm.*
+    FROM
+	sys_user_role AS sur
+	INNER JOIN sys_role AS sr ON sur.role_id = sr.role_id
+	INNER JOIN sys_role_menu AS srm ON sr.role_id = srm.role_id
+	INNER JOIN sys_menu AS sm ON srm.menu_id = sm.menu_id
+	AND sur.user_id = #{id}
+  </select>
+  <select id="getUserInfo" resultType="java.lang.Long">
+    SELECT
+	user_id
+    FROM
+	sys_user
+	<where>
+      username = #{userName}
+    </where>
+  </select>
 </mapper>

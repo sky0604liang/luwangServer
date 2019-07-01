@@ -1,11 +1,13 @@
 package com.nnmzkj.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SystemLog {
-    private Integer id;
+public class SystemLog implements Serializable {
+    private static final long serialVersionUID = -8988672932052190440L;
+    private Long id;
 
-    private Integer adminId;
+    private Long adminId;
 
     private String adminName;
 
@@ -17,19 +19,19 @@ public class SystemLog {
 
     private Date addTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getAdminId() {
+    public Long getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(Integer adminId) {
+    public void setAdminId(Long adminId) {
         this.adminId = adminId;
     }
 
@@ -70,6 +72,18 @@ public class SystemLog {
     }
 
     public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public SystemLog() {
+    }
+
+    public SystemLog(Long adminId, String adminName, String path, String page, String ip, Date addTime) {
+        this.adminId = adminId;
+        this.adminName = adminName;
+        this.path = path;
+        this.page = page;
+        this.ip = ip;
         this.addTime = addTime;
     }
 }

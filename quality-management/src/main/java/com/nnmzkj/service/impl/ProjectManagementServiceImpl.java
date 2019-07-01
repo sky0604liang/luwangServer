@@ -11,6 +11,7 @@ import com.nnmzkj.dao.QualityProManagementMapper;
 import com.nnmzkj.dao.SysAssetMapper;
 import com.nnmzkj.dao.SysOrgMapper;
 import com.nnmzkj.dto.AddManagementDto;
+import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
 import com.nnmzkj.model.SysAsset;
@@ -47,9 +48,9 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     private String uploadPath;
 
     @Override
-    public PageInfo getManagementList(PageMsg pageMsg) {
-        PageHelper.startPage(pageMsg.getPage(),pageMsg.getSize());
-        List<ObjectManagementListDto> list = qualityProManagementMapper.selectAll();
+    public PageInfo getManagementList(BaseListParameterDto pageMsg) {
+        PageHelper.startPage(pageMsg.getPageNumber(),pageMsg.getPageSize());
+        List<ObjectManagementListDto> list = qualityProManagementMapper.selectAll(pageMsg.getBuildId());
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }

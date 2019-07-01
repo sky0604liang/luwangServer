@@ -2,6 +2,7 @@ package com.nnmzkj.config.log;
 
 
 import com.nnmzkj.common.utils.IpUtils;
+import com.nnmzkj.common.utils.JwtTokenUtil;
 import com.nnmzkj.model.SystemLog;
 import com.nnmzkj.service.SystemLogService;
 import org.aspectj.lang.JoinPoint;
@@ -56,9 +57,11 @@ public class SysLogAspect {
         systemLog.setAddTime(new Date());
         //获取用户名
        // sysLog.setUsername(ShiroUtils.getUserEntity().getUsername());
+        systemLog.setAdminName("testAdmin");
         //获取用户ip地址
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        systemLog.setIp(IpUtils.getIpAddr(request));
+        String ipAddr = IpUtils.getIpAddr(request);
+        systemLog.setIp(ipAddr);
         String url = request.getRequestURL().toString();
         systemLog.setPath(url);
         systemLog.setAdminName("测试admin");

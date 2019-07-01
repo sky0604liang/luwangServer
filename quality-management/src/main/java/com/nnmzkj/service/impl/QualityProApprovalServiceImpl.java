@@ -26,7 +26,7 @@ public class QualityProApprovalServiceImpl implements QualityProApprovalService 
 
     @Override
     public PageInfo list(BaseListParameterDto baseListParameterDto) {
-        PageHelper.startPage(baseListParameterDto.getPage(),baseListParameterDto.getSize());
+        PageHelper.startPage(baseListParameterDto.getPageNumber(),baseListParameterDto.getPageSize());
         List<QualityProApprovalListDto> list =qualityProApprovalMapper.list(baseListParameterDto.getBuildId());
         if (!StringUtils.isEmpty(list) && list.size() > 0){
             for (QualityProApprovalListDto qualityProApprovalListDto : list) {

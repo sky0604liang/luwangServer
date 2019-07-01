@@ -11,35 +11,34 @@ public class PageMsg implements Serializable {
      * 页码
      */
 
-    private int page = 1;
+    private int pageNumber = 1;
 	
     /**
      * 每页条数
      */
-    private int size = 10;
-    
-	public int getPage() {
-		return page;
+    private int pageSize = 10;
+
+	public int getPageNumber() {
+		return pageNumber;
 	}
-	
-	public void setPage(int page) {
-		this.page = page;
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
 	}
-	
-	public int getSize() {
-		return size;
+
+	public int getPageSize() {
+		return pageSize;
 	}
-	
-	public void setSize(int size) {
-		this.size = size;
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
-	
-	public PageMsg(int page, int size) {
-		super();
-		this.page = page;
-		this.size = size;
+
+	public PageMsg(int pageNumber, int pageSize) {
+		this.pageNumber = pageNumber;
+		this.pageSize = pageSize;
 	}
-	
+
 	public PageMsg() {
 		super();
 	}

@@ -11,23 +11,25 @@ import com.nnmzkj.common.exception.QualityManagementException;
 import com.nnmzkj.common.exception.QualityManagementExceptionCode;
 import com.nnmzkj.config.log.MyLog;
 import com.nnmzkj.dto.AddManagementDto;
-import com.nnmzkj.dto.QualityProApprovalListDto;
+import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
 import com.nnmzkj.model.SysOrg;
 import com.nnmzkj.service.ProjectManagementService;
 import com.nnmzkj.service.SysAssetService;
 import com.nnmzkj.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
 
-@RestController
+@Controller
 @RequestMapping("/project/management")
 public class ProjectManagementController {
 
@@ -41,29 +43,28 @@ public class ProjectManagementController {
     private SysAssetService sysAssetService;
 
 
+    @GetMapping("/to/list")
+    public ModelAndView toList(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/roadNetHtml/index.html");
+        return mv;
+    }
 
 
     //项目管理列表
     @CrossOrigin
     @GetMapping("/list")
-    public Test getManagementList(PageMsg pageMsg){
-
-        List<QualityProApprovalListDto> list = new ArrayList();
-        QualityProApprovalListDto qualityProApprovalListDto = new QualityProApprovalListDto();
-        QualityProApprovalListDto qualityProApprovalListDto2 = new QualityProApprovalListDto();
-        qualityProApprovalListDto.setBuildName("sxxxx");
-        qualityProApprovalListDto2.setBuildName("xxxxxxxx");
-        list.add(qualityProApprovalListDto);
-        list.add(qualityProApprovalListDto2);
-        Test test = new Test();
-        test.setTotal(2);
-        test.setRows(list);
-        return test;
-      /*  if (StringUtils.isEmpty(pageMsg)){
+    @ResponseBody
+    public Test getManagementList(BaseListParameterDto pageMsg){
+            Test test = new Test();
+        if (StringUtils.isEmpty(pageMsg)){
             throw new QualityManagementException(QualityManagementExceptionCode.PAGE_IS_NULL);
         }
-        PageInfo list = projectManagementService.getManagementList(pageMsg);*/
-        /*return ResultGenerator.genSuccessResult(list);*/
+        PageInfo pageInfo = projectManagementService.getManagementList(pageMsg);
+        long total = pageInfo.getTotal();
+        test.setTotal(total);
+        test.setRows(pageInfo.getList());
+        return test;
     }
 
     @MyLog(value = "新增项目")  //这里添加了AOP的自定义注解

@@ -21,7 +21,7 @@ public class ProjectPreparationServiceImpl implements ProjectPreparationService 
 
     @Override
     public PageInfo list(BaseListParameterDto baseListParameterDto) {
-        PageHelper.startPage(baseListParameterDto.getPage(),baseListParameterDto.getSize());
+        PageHelper.startPage(baseListParameterDto.getPageNumber(),baseListParameterDto.getPageSize());
         List<PreparationListDto> list = qualityPreparationMapper.list(baseListParameterDto.getBuildId());
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;

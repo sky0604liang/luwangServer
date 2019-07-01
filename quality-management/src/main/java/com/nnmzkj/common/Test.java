@@ -8,15 +8,15 @@ import java.util.List;
 public class Test implements Serializable {
     private static final long serialVersionUID = -3941835742723951236L;
 
-    private int total;
+    private long total;
 
     private List<QualityProApprovalListDto> rows;
 
-    public int getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 

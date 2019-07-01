@@ -1,7 +1,6 @@
-
 #server config
 server:
-  port: 8080
+  port: 80
   servlet:
     context-path: /
   #spring boot tomcat config
@@ -37,7 +36,6 @@ spring:
       max-request-size: 1000Mb
   aop:
     auto: true
-
   #server date format
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -121,3 +119,10 @@ logging:
     com.jky: debug
     com.jky.common.mapper.OperatorLogMapper: info
   config: classpath:logback.xml
+
+# 自定义jwt key
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mySecret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24)
+  tokenHead: Bearer  #JWT负载中拿到开头

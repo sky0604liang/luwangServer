@@ -13,12 +13,14 @@
     <result column="gmt_last_modified" jdbcType="TIMESTAMP" property="gmtLastModified" />
   </resultMap>
 
-  <resultMap id="ObjectManagementListDtoMap" type="com.nnmzkj.dto.ObjectManagementListDto">
+  <resultMap id="ObjectManagementListDtoMap"  type="com.nnmzkj.dto.ObjectManagementListDto">
     <id column="pro_id" jdbcType="BIGINT" property="proId" />
     <result column="pro_name" jdbcType="VARCHAR" property="proName" />
     <result column="build_name" jdbcType="VARCHAR" property="buildName" />
     <result column="start_status" jdbcType="TINYINT" property="startStatus" />
     <result column="start_file" jdbcType="VARCHAR" property="startFile" />
+    <!--查询机构信息-->
+    <association property="buildDto" javaType="com.nnmzkj.dto.BuildDto" column="build_id" select="com.nnmzkj.dao.SysOrgMapper.getBuildName"/>
   </resultMap>
 
 
@@ -164,6 +166,9 @@
     FROM quality_pro_management AS qpm INNER JOIN sys_org AS so
     <where>
       qpm.build_id = so.org_id
+      <if test="buildId != null">
+       and build_id = #{buildId,jdbcType=BIGINT}
+      </if>
     </where>
   </select>
 

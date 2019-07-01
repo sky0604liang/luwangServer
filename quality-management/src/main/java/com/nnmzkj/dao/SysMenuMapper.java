@@ -2,6 +2,8 @@ package com.nnmzkj.dao;
 
 import com.nnmzkj.model.SysMenu;
 
+import java.util.List;
+
 public interface SysMenuMapper {
     int deleteByPrimaryKey(Long menuId);
 
@@ -14,4 +16,6 @@ public interface SysMenuMapper {
     int updateByPrimaryKeySelective(SysMenu record);
 
     int updateByPrimaryKey(SysMenu record);
+
+    List<SysMenu> getPermissionList(Long userId);
 }

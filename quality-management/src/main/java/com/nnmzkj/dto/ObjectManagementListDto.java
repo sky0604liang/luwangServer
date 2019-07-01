@@ -18,6 +18,8 @@ public class ObjectManagementListDto implements Serializable {
     //建设办名称
     private String buildName;
 
+    private BuildDto buildDto;
+
     //开工状态
     private Byte startStatus;
 
@@ -46,12 +48,12 @@ public class ObjectManagementListDto implements Serializable {
         this.proName = proName;
     }
 
-    public String getBuildName() {
-        return buildName;
+    public BuildDto getBuildDto() {
+        return buildDto;
     }
 
-    public void setBuildName(String buildName) {
-        this.buildName = buildName;
+    public void setBuildDto(BuildDto buildDto) {
+        this.buildDto = buildDto;
     }
 
     public Byte getStartStatus() {
@@ -71,5 +73,13 @@ public class ObjectManagementListDto implements Serializable {
     }
 
     public ObjectManagementListDto() {
+    }
+
+    public String getBuildName() {
+        return buildName;
+    }
+
+    public void setBuildName(String buildName) {
+        this.buildName = buildName;
     }
 }

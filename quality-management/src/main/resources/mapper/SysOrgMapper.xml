@@ -11,6 +11,11 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
   </resultMap>
+
+  <resultMap id="BuildDtoMap" type="com.nnmzkj.dto.BuildDto">
+    <id column="org_id" jdbcType="BIGINT" property="orgId" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
+  </resultMap>
   <sql id="Base_Column_List">
     org_id, parent_id, code, name, order_num, status, gmt_create, gmt_modified
   </sql>
@@ -136,4 +141,12 @@
     set name = #{buildName,jdbcType=VARCHAR}
     where org_id = #{buildId,jdbcType=BIGINT}
   </update>
+
+  <select id="getBuildName" resultMap="BuildDtoMap">
+    select name as build_name
+    from sys_org
+    <where>
+      org_id = #{buildId,jdbcType=BIGINT}
+    </where>
+  </select>
 </mapper>

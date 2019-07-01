@@ -25,7 +25,7 @@ public interface QualityProManagementMapper {
      * 项目管理列表
      * @return
      */
-    List<ObjectManagementListDto> selectAll();
+    List<ObjectManagementListDto> selectAll(@Param("buildId") Long buildId);
 
     int addProject(AddManagementDto addManagementDto);
 

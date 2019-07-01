@@ -4,6 +4,7 @@ package com.nnmzkj.service;
 import com.github.pagehelper.PageInfo;
 import com.nnmzkj.common.core.PageMsg;
 import com.nnmzkj.dto.AddManagementDto;
+import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ public interface ProjectManagementService {
      * @param pageMsg
      * @return
      */
-    PageInfo getManagementList(PageMsg pageMsg);
+    PageInfo getManagementList(BaseListParameterDto pageMsg);
 
     /**
      * 新增项目

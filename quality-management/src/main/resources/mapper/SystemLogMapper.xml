@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nnmzkj.dao.SystemLogMapper">
+
   <resultMap id="BaseResultMap" type="com.nnmzkj.model.SystemLog">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="admin_id" jdbcType="BIGINT" property="adminId" />
     <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="page" jdbcType="VARCHAR" property="page" />
@@ -17,17 +18,17 @@
     select 
     <include refid="Base_Column_List" />
     from system_log
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from system_log
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.nnmzkj.model.SystemLog">
     insert into system_log (id, admin_id, admin_name, 
       path, page, ip, add_time
       )
-    values (#{id,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{adminId,jdbcType=BIGINT}, #{adminName,jdbcType=VARCHAR},
       #{path,jdbcType=VARCHAR}, #{page,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -58,10 +59,10 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="adminId != null">
-        #{adminId,jdbcType=INTEGER},
+        #{adminId,jdbcType=BIGINT},
       </if>
       <if test="adminName != null">
         #{adminName,jdbcType=VARCHAR},
@@ -84,7 +85,7 @@
     update system_log
     <set>
       <if test="adminId != null">
-        admin_id = #{adminId,jdbcType=INTEGER},
+        admin_id = #{adminId,jdbcType=BIGINT},
       </if>
       <if test="adminName != null">
         admin_name = #{adminName,jdbcType=VARCHAR},
@@ -106,7 +107,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.nnmzkj.model.SystemLog">
     update system_log
-    set admin_id = #{adminId,jdbcType=INTEGER},
+    set admin_id = #{adminId,jdbcType=BIGINT},
       admin_name = #{adminName,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       page = #{page,jdbcType=VARCHAR},
@@ -114,4 +115,5 @@
       add_time = #{addTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

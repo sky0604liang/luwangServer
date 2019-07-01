@@ -1,5 +1,6 @@
 package com.nnmzkj.dao;
 
+import com.nnmzkj.dto.BuildDto;
 import com.nnmzkj.model.SysOrg;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,6 @@ public interface SysOrgMapper {
      * @param buildId  机构id
      */
     void updateOrgNameByOrgId(@Param("buildName") String buildName, @Param("buildId") Long buildId);
+
+    BuildDto getBuildName(@Param("build_id") Long build_id);
 }
