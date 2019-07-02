@@ -1,0 +1,5 @@
+.fa{margin: 3px 0;}
+/*项目管理*/
+.table-container table{font-size: 14px; margin-bottom: 0}
+.table-container table tr th:last-child,.table-container table tr td:last-child{text-align: center;}
+.table-container table tr:nth-child(even){background: #f9f9f9;}

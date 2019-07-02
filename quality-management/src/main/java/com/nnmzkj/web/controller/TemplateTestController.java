@@ -8,16 +8,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/templates")
+@RequestMapping("/user")
 public class  TemplateTestController {
 
 
-    @GetMapping("/test")
-    @ResponseBody
+    @GetMapping("/index")
     public ModelAndView test(){
         ModelAndView mv = new ModelAndView();
         mv.addObject("test","admin");
-        mv.setViewName("test/index.html");
+        mv.setViewName("/user/index.html");
         return mv;
     }
 

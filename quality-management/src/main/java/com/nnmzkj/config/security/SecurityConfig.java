@@ -16,12 +16,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-
+import org.springframework.web.cors.CorsUtils;
 
 
 @Configuration
@@ -40,7 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    //用于配置需要拦截的url路径、jwt过滤器及出异常后的处理器；
    @Override
    protected void configure(HttpSecurity httpSecurity) throws Exception {
-      httpSecurity.csrf() //使用jwt，不需要csrf
+       httpSecurity.headers()
+               .frameOptions()
+               .sameOrigin();
+       httpSecurity.csrf() //使用jwt，不需要csrf
       .disable()
       .sessionManagement()// 使用jwt，不需要session管理
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -48,14 +51,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .authorizeRequests() //配置授权请求
       .antMatchers(HttpMethod.GET, //允许对于网站静态资源无授权访问
               "/",
-              "/*.html",
-              "/favicon.ico",
-              "/**/*.html",
-              "/**/*.css",
-              "/**/*.js"
+              "/static/**",
+              ".html",
+            "/favicon.ico",
+              "/**.html",
+             "*.css",
+             "*.js"
       )
       .permitAll() //放行
-      .antMatchers("/user/login","/user/register") //对登陆注册允许访问
+      .antMatchers("/user/login"
+              ,"/project/management/add"
+              ,"/project/management/index"
+              ,"/sys/org/list"
+      ) //对登陆注册允许访问
       .permitAll()
       .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
       .permitAll()
@@ -83,6 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
    }
+
 
 
   // SpringSecurity定义的核心接口，用于根据用户名获取用户信息，需要自行实现；

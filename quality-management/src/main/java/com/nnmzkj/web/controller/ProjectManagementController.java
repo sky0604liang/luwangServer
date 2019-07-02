@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 
 
@@ -43,11 +42,14 @@ public class ProjectManagementController {
     private SysAssetService sysAssetService;
 
 
+    @GetMapping("/index")
+    public String index(){
+      return "/roadNetHtml/index.html";
+    }
+
     @GetMapping("/to/list")
-    public ModelAndView toList(){
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/roadNetHtml/index.html");
-        return mv;
+    public String toList(){
+        return "/roadNetHtml/page/projectManage/projectList.html";
     }
 
 
@@ -68,9 +70,8 @@ public class ProjectManagementController {
     }
 
     @MyLog(value = "新增项目")  //这里添加了AOP的自定义注解
-    //新增项目管理
     @PostMapping("/add")
-    public Result addProject(AddManagementDto addManagementDto){
+    public Result addProject(@RequestBody AddManagementDto addManagementDto){
         if (StringUtils.isEmpty(addManagementDto) && StringUtil.isNotEmpty(addManagementDto.getProName())){
             throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_NAME_IS_NULL);
         }

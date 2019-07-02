@@ -176,31 +176,49 @@
   <insert id="addProject" parameterType="com.nnmzkj.dto.AddManagementDto" useGeneratedKeys="true" keyProperty="proId">
     insert into quality_pro_management
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="proName != null">
-        pro_name,
+      <if test="param.proName != null">
+        param.proName,
       </if>
-      <if test="buildId != null">
-        build_id,
+
+      <if test="param.buildId != null">
+        param.buildId,
       </if>
-      <if test="startStatus != null">
-        start_status,
+
+      <if test="param.startFile != null">
+        param.startFile,
       </if>
-      <if test="startFile != null">
-        start_file,
+
+      <if test="param.remark != null">
+        param.remark,
       </if>
+
+      <if test="param.gmtCreate != null">
+        param.gmtCreate,
+      </if>
+
+      <if test="param.gmtLastModified != null">
+        param.gmtLastModified,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="proName != null">
-        #{proName,jdbcType=VARCHAR},
+      <if test="param.proName != null">
+        #{param.pro_name,jdbcType=VARCHAR},
       </if>
-      <if test="buildId != null">
-        #{buildId,jdbcType=BIGINT},
+      <if test="param.buildId != null">
+        #{build_id,jdbcType=BIGINT},
       </if>
-      <if test="startStatus != null">
-        #{startStatus,jdbcType=TINYINT},
+      <if test="param.startFile != null">
+        #{start_file,jdbcType=VARCHAR},
       </if>
-      <if test="startFile != null">
-        #{startFile,jdbcType=VARCHAR},
+      <if test="param.remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="param.gmtCreate != null">
+        #{gmt_create,jdbcType=TIMESTAMP},
+      </if>
+      <if test="param.gmtLastModified != null">
+        #{gmt_last_modified,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>

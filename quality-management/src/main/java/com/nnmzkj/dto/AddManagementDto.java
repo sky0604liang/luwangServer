@@ -3,6 +3,7 @@ package com.nnmzkj.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class AddManagementDto implements Serializable {
     private static final long serialVersionUID = -5594875057514464596L;
@@ -11,18 +12,16 @@ public class AddManagementDto implements Serializable {
 
     //项目名称名称
     private String proName;
-
     //建设办名称
     private Long buildId;
-
-    //开工状态
-    private Byte startStatus;
-
+    //备注
+    private String  remark;
     //文件Url
     private String startFile;
 
-    //文件上传
-    private MultipartFile blFile;
+    private Date gmtCreate;
+
+    private Date gmtLastModified;
 
 
     public String getProName() {
@@ -41,13 +40,7 @@ public class AddManagementDto implements Serializable {
         this.buildId = buildId;
     }
 
-    public Byte getStartStatus() {
-        return startStatus;
-    }
 
-    public void setStartStatus(Byte startStatus) {
-        this.startStatus = startStatus;
-    }
 
     public String getStartFile() {
         return startFile;
@@ -65,13 +58,29 @@ public class AddManagementDto implements Serializable {
         ProId = proId;
     }
 
-    public MultipartFile getBlFile() {
-        return blFile;
-    }
-
-    public void setBlFile(MultipartFile blFile) {
-        this.blFile = blFile;
+    public String getRemark() {
+        return remark;
     }
 
 
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtLastModified() {
+        return gmtLastModified;
+    }
+
+    public void setGmtLastModified(Date gmtLastModified) {
+        this.gmtLastModified = gmtLastModified;
+    }
 }

@@ -1,6 +1,6 @@
 #server config
 server:
-  port: 80
+  port: 8080
   servlet:
     context-path: /
   #spring boot tomcat config
@@ -14,6 +14,8 @@ mybatis:
     - classpath*:mapper/*.xml
   type-aliases-package: com.nnmzkj.model,com.nnmzkj.dto
 spring:
+  resources:
+    static-locations: classpath:/static,classpath:/templates
   thymeleaf:
     #模板的模式，支持 HTML, XML TEXT JAVASCRIPT
     mode: HTML5
@@ -39,6 +41,7 @@ spring:
   #server date format
   mvc:
     date-format: yyyy-MM-dd HH:mm:ss
+    static-path-pattern: /static/**
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

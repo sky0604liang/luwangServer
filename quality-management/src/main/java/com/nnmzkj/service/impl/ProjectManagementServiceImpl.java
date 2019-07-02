@@ -14,6 +14,7 @@ import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.ObjectManagementListDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
+import com.nnmzkj.model.QualityProManagement;
 import com.nnmzkj.model.SysAsset;
 import com.nnmzkj.service.ProjectManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import java.util.*;
 public class ProjectManagementServiceImpl implements ProjectManagementService {
 
     @Autowired
-    private QualityProManagementMapper qualityProManagementMapper;
+    private QualityProManagementMapper proManagementMapper;
 
     @Autowired
     private SysAssetMapper sysAssetMapper;
@@ -50,7 +51,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     @Override
     public PageInfo getManagementList(BaseListParameterDto pageMsg) {
         PageHelper.startPage(pageMsg.getPageNumber(),pageMsg.getPageSize());
-        List<ObjectManagementListDto> list = qualityProManagementMapper.selectAll(pageMsg.getBuildId());
+        List<ObjectManagementListDto> list = proManagementMapper.selectAll(pageMsg.getBuildId());
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
@@ -58,11 +59,14 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     @Transactional
     @Override
     public void addProject(AddManagementDto addManagementDto) {
-        MultipartFile blFile = addManagementDto.getBlFile();
+        proManagementMapper.addProject(addManagementDto);
+        Long objectKey = addManagementDto.getProId();
+
+     /*   MultipartFile blFile = addManagementDto.getBlFile();
         String fileName = "";
         //完整url
         String filePath = FileUtils.filePath(blFile, uploadPath);
-        /*if ( blFile != null &&!blFile.isEmpty()){
+        *//*if ( blFile != null &&!blFile.isEmpty()){
             //格式校验
             String suffix = addManagementDto.getBlFile().getOriginalFilename().substring(addManagementDto.getBlFile().getOriginalFilename().lastIndexOf("."));
             if(!accTypes.contains(suffix)){
@@ -84,7 +88,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
             //存储目录+文件名称 = 完整文件路径
            String filePath =  uploadDir + fileName ;
            addManagementDto.setStartFile(filePath);
-        }*/
+        }*//*
         addManagementDto.setStartFile(filePath);
         //存入数据库
         int status = qualityProManagementMapper.selectObjectInfo(addManagementDto.getProName());
@@ -96,12 +100,12 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
             //存入资源表
             SysAsset sysAsset = new SysAsset(addManagementDto.getStartFile(),fileName,addManagementDto.getBlFile().getSize(),new Date(),objectKey);
             sysAssetMapper.insertSelective(sysAsset);
-        }
+        }*/
     }
 
     @Override
     public Map<String,Object>  toUpdate(Long proId) {
-        UpdateProjectInfoDto updateProjectInfoDto = qualityProManagementMapper.toUpdate(proId);
+        UpdateProjectInfoDto updateProjectInfoDto = proManagementMapper.toUpdate(proId);
         Map<String,Object> map = new HashMap<>();
         map.put("projectInfo",updateProjectInfoDto);
         List<SysAsset> list = sysAssetMapper.getProjectAssetByProId(proId);
@@ -113,7 +117,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     @Override
     public void updateProject(UpdateProjectInfoDto updateProjectInfoDto) {
         //更新项目表
-        qualityProManagementMapper.updateProject(updateProjectInfoDto);
+        proManagementMapper.updateProject(updateProjectInfoDto);
         //更新机构办
         if (StringUtil.isNotEmpty(updateProjectInfoDto.getBuildName())){
             sysOrgMapper.updateOrgNameByOrgId(updateProjectInfoDto.getBuildName(),updateProjectInfoDto.getBuildId());
