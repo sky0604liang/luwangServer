@@ -19,6 +19,8 @@ public class QualityProManagement {
 
     private Date gmtCreate;
 
+    private String buildName;
+
     private Date gmtLastModified;
 
     public Long getProId() {
@@ -91,5 +93,13 @@ public class QualityProManagement {
 
     public void setGmtLastModified(Date gmtLastModified) {
         this.gmtLastModified = gmtLastModified;
+    }
+
+    public String getBuildName() {
+        return buildName;
+    }
+
+    public void setBuildName(String buildName) {
+        this.buildName = buildName;
     }
 }

@@ -24,6 +24,8 @@ public class AddManagementDto implements Serializable {
     private Date gmtLastModified;
 
 
+    private String pro_name;
+
     public String getProName() {
         return proName;
     }
@@ -82,5 +84,13 @@ public class AddManagementDto implements Serializable {
 
     public void setGmtLastModified(Date gmtLastModified) {
         this.gmtLastModified = gmtLastModified;
+    }
+
+    public String getPro_name() {
+        return pro_name;
+    }
+
+    public void setPro_name(String pro_name) {
+        this.pro_name = pro_name;
     }
 }

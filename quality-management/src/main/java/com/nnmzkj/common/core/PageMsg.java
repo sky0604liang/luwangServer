@@ -11,12 +11,12 @@ public class PageMsg implements Serializable {
      * 页码
      */
 
-    private int pageNumber = 1;
+    private int pageNumber ;
 	
     /**
      * 每页条数
      */
-    private int pageSize = 10;
+    private int pageSize ;
 
 	public int getPageNumber() {
 		return pageNumber;

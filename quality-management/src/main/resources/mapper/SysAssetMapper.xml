@@ -108,4 +108,21 @@
       quality_pro_id = #{proId}
     </where>
   </select>
+
+  <delete id="batchDelete" parameterType = "java.util.List">
+    delete from sys_asset where quality_pro_id
+    in (
+    <foreach collection="list" item="id" separator=",">
+      #{id}
+    </foreach>
+    )
+  </delete>
+
+  <delete id="deleteByProId">
+    delete
+    from sys_asset
+    <where>
+      quality_pro_id = #{proId}
+    </where>
+  </delete>
 </mapper>

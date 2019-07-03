@@ -10,6 +10,7 @@
     <result column="start_file" jdbcType="VARCHAR" property="startFile" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="build_name" jdbcType="VARCHAR" property="buildName" />
     <result column="gmt_last_modified" jdbcType="TIMESTAMP" property="gmtLastModified" />
   </resultMap>
 
@@ -20,7 +21,9 @@
     <result column="start_status" jdbcType="TINYINT" property="startStatus" />
     <result column="start_file" jdbcType="VARCHAR" property="startFile" />
     <!--查询机构信息-->
+<!--
     <association property="buildDto" javaType="com.nnmzkj.dto.BuildDto" column="build_id" select="com.nnmzkj.dao.SysOrgMapper.getBuildName"/>
+-->
   </resultMap>
 
 
@@ -57,7 +60,7 @@
       #{remark,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtLastModified,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.nnmzkj.model.QualityProManagement">
+  <insert id="insertSelective" parameterType="com.nnmzkj.model.QualityProManagement" useGeneratedKeys="true" keyProperty="proId">
     insert into quality_pro_management
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="proId != null">
@@ -162,12 +165,11 @@
   </update>
 
   <select id="selectAll" resultMap="ObjectManagementListDtoMap">
-    SELECT qpm.pro_id,qpm.pro_name,so.name AS build_name,qpm.start_status,qpm.start_file
-    FROM quality_pro_management AS qpm INNER JOIN sys_org AS so
+    SELECT qpm.pro_id,qpm.pro_name,qpm.start_status,qpm.start_file,qpm.build_name
+    FROM quality_pro_management AS qpm
     <where>
-      qpm.build_id = so.org_id
       <if test="buildId != null">
-       and build_id = #{buildId,jdbcType=BIGINT}
+       and qpm.build_id = #{buildId,jdbcType=BIGINT}
       </if>
     </where>
   </select>
@@ -183,7 +185,6 @@
       <if test="param.buildId != null">
         param.buildId,
       </if>
-
       <if test="param.startFile != null">
         param.startFile,
       </if>
@@ -203,7 +204,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="param.proName != null">
-        #{param.pro_name,jdbcType=VARCHAR},
+        #{pro_name,jdbcType=VARCHAR},
       </if>
       <if test="param.buildId != null">
         #{build_id,jdbcType=BIGINT},
@@ -254,5 +255,17 @@
     </set>
     where pro_id = #{param.proId,jdbcType=BIGINT}
   </update>
+
+
+
+
+  <delete id="deleteByLogic" parameterType = "java.util.List">
+    delete from quality_pro_management where pro_id
+    in (
+    <foreach collection="list" item="id" separator=",">
+      #{id}
+    </foreach>
+    )
+  </delete>
 
 </mapper>
