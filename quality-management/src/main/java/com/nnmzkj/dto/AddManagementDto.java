@@ -23,8 +23,9 @@ public class AddManagementDto implements Serializable {
 
     private Date gmtLastModified;
 
+    private String buildName;
 
-    private String pro_name;
+
 
     public String getProName() {
         return proName;
@@ -86,11 +87,11 @@ public class AddManagementDto implements Serializable {
         this.gmtLastModified = gmtLastModified;
     }
 
-    public String getPro_name() {
-        return pro_name;
+    public String getBuildName() {
+        return buildName;
     }
 
-    public void setPro_name(String pro_name) {
-        this.pro_name = pro_name;
+    public void setBuildName(String buildName) {
+        this.buildName = buildName;
     }
 }

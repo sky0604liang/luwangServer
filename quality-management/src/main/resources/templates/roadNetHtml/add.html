@@ -55,28 +55,15 @@
                                         <textarea id="remark" name="remark" class="form-control" type="text" placeholder='请输入备注'></textarea>
                                     </div>
                                 </div>
-
-                               <!-- <div id="contract_div">
-
-                                    <div class="form-group">
-                                        <label class="col-sm-3 control-label">开工文件：</label>
-                                        <div class="col-sm-8">
-                                            <input id="startWorking" name="" class="form-control" type="text">
-                                            <form id="fileForm">
-
-                                                <input class="btn   btn-primary startWorkingBtn" onclick="uploadFile()" type="file" name="files"  multiple="multiple" >
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>-->
-
-                                <input id="startProfile" accept="image/*" type="file" multiple="multiple" style="display:none"/>
                                 <div class="form-group required" aria-required="true">
                                     <label class="col-sm-3 control-label">开工文件：</label>
                                     <div class="col-sm-6">
-                                        <input id="bankName" name="bankName" class="form-control" type="text">
+                                        <input id="fileName" name="bankName" class="form-control" type="text">
+                                        <input id="filePath"  value="" type="hidden">
                                     </div>
-                                    <input class="btn btn-warning" type="button" value="上传文件" onclick="$('input[id=startProfile]').click()">
+                                    <!---->
+                                   <!-- <input class="btn btn-warning" type="file" value="上传文件" onclick="uploadFile()" >-->
+                                    <input id="startProfile"  accept="image/*" type="file" multiple="multiple" onclick="uploadFile()"/>
                                 </div>
 
 
@@ -120,17 +107,20 @@
         //项目名称
         var  projectName = $("#projectName").val();
         //建设办id
-        var buildId = $("#orgSelect").val();  //获取选中的项
+        var buildId = $("#orgSelect").val();
         //备注
         var remark = $("#remark").val();
         //文件名称
         var startFile = $("#startWorking").val();
 
+        var buildName = $("#orgSelect").find("option:selected").text();
+
         var data = {
             proName:projectName,
             buildId:buildId,
             remark:remark,
-            startFile:startFile
+            startFile:startFile,
+            buildName:buildName
         }
         $.ajax({
             type:"POST",
@@ -148,31 +138,28 @@
         parent.layer.close(index)
     }
 
-    //加载所有  机构名称
-    /*$(document).ready(function(){
-        loadOrgName();
-    });
-    function loadOrgName() {
+    function uploadFile() {
+
+        var formData = new FormData();
+        formData.append('file', $('#startProfile')[0].files[0]);
         $.ajax({
-            url: "http://localhost:8080/sys/org/list",
-            type: "get",
-            async:false,
-            success: function (data) {
-               /!* data = JSON.parse(data);*!/
-                console.log(data);
-                var nameOpt = "<option value='' selected='selected'>--请选择--</option>";
-                for (var i = 0; i < data.length; i++) {
-                    nameOpt += "<option value='" + data[i].buidlId + "' selected='selected'>" + data[i].buildName + "</option>";
-                }
-                $('#orgSelect').html(nameOpt);
-            },
-            error: function () {
+            url: 'http://localhost:8080/project/management/upload/file',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType:'json',
+            success:function(data){
+                var fileName = data["fileName"];
+                var filePath = data["filePath"];
+                $("#fileName").val(fileName);
+                $("#filePath").val(filePath);
             }
-        });
-    }*/
+        }).done(function(res) {
+        }).fail(function(res) {});
 
-
-
+    }
 
 </script>
 

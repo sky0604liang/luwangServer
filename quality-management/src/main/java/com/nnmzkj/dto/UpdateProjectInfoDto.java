@@ -7,17 +7,10 @@ public class UpdateProjectInfoDto implements Serializable {
 
     private Long ProId;
 
-    //项目名称名称
-    private String proName;
 
-    //建设办Id
-    private Long buildId;
+    private String remark;
 
-    //建设办名称
-    private String buildName;
-
-    //开工状态
-    private Byte startStatus;
+    private String startFile;
 
 
 
@@ -29,38 +22,21 @@ public class UpdateProjectInfoDto implements Serializable {
         ProId = proId;
     }
 
-    public String getProName() {
-        return proName;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setProName(String proName) {
-        this.proName = proName;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
-    public Long getBuildId() {
-        return buildId;
+    public String getStartFile() {
+        return startFile;
     }
 
-    public void setBuildId(Long buildId) {
-        this.buildId = buildId;
+    public void setStartFile(String startFile) {
+        this.startFile = startFile;
     }
-
-    public String getBuildName() {
-        return buildName;
-    }
-
-    public void setBuildName(String buildName) {
-        this.buildName = buildName;
-    }
-
-    public Byte getStartStatus() {
-        return startStatus;
-    }
-
-    public void setStartStatus(Byte startStatus) {
-        this.startStatus = startStatus;
-    }
-
 
     public UpdateProjectInfoDto() {
     }

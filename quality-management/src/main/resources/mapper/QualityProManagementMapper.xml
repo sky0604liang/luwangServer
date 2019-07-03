@@ -20,6 +20,9 @@
     <result column="build_name" jdbcType="VARCHAR" property="buildName" />
     <result column="start_status" jdbcType="TINYINT" property="startStatus" />
     <result column="start_file" jdbcType="VARCHAR" property="startFile" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+
     <!--查询机构信息-->
 <!--
     <association property="buildDto" javaType="com.nnmzkj.dto.BuildDto" column="build_id" select="com.nnmzkj.dao.SysOrgMapper.getBuildName"/>
@@ -38,7 +41,7 @@
 
   <sql id="Base_Column_List">
     pro_id, pro_name, build_id, pre_status, start_status, start_file, remark, gmt_create, 
-    gmt_last_modified
+    gmt_last_modified,build_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -90,6 +93,9 @@
       <if test="gmtLastModified != null">
         gmt_last_modified,
       </if>
+      <if test="buildName != null">
+        build_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="proId != null">
@@ -118,6 +124,9 @@
       </if>
       <if test="gmtLastModified != null">
         #{gmtLastModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buildName != null">
+        #{buildName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -165,7 +174,8 @@
   </update>
 
   <select id="selectAll" resultMap="ObjectManagementListDtoMap">
-    SELECT qpm.pro_id,qpm.pro_name,qpm.start_status,qpm.start_file,qpm.build_name
+    SELECT qpm.pro_id,qpm.pro_name,qpm.start_status,qpm.start_file,qpm.build_name,qpm.gmt_create,
+    qpm.remark
     FROM quality_pro_management AS qpm
     <where>
       <if test="buildId != null">

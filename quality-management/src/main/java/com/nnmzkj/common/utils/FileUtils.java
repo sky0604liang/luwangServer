@@ -1,63 +1,102 @@
 package com.nnmzkj.common.utils;
 
-import com.nnmzkj.common.exception.QualityManagementException;
-import com.nnmzkj.common.exception.QualityManagementExceptionCode;
-import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 public class FileUtils {
 
 
 
-    private static List<String> accTypes = Arrays.asList(".jpg",".jpeg",".gif",".pdf",".png");
+    /**
+     *
+     * @param request
+     * @param filePath
+     * @return
+     */
+    public static String tranferFile(HttpServletRequest request, String filePath){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        //先判断request中是否包涵multipart类型的数据，
+        if(multipartResolver.isMultipart(request)){
+            //再将request中的数据转化成multipart类型的数据
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator iter = multiRequest.getFileNames();
+            while(iter.hasNext()){
+                MultipartFile file = multiRequest.getFile((String)iter.next());
+                if(file != null){
+                    String originalFileName = file.getOriginalFilename();
 
-    public static String filePath(MultipartFile file,String uploadPath){
-        if ( file != null &&!file.isEmpty()){
-            //格式校验
-            String suffix =file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-            String fileName = "";
-            if(!accTypes.contains(suffix)){
-                throw new QualityManagementException(QualityManagementExceptionCode.FILE_FORMAT_IS_ERROR);
+                    String path =request.getSession().getServletContext().getRealPath(filePath);
+                    //得到存储到本地的文件名
+                    String localFileName= UUID.randomUUID().toString()+getFileSuffix(originalFileName);
+                    //新建本地文件
+                    File localFile = new File(path,localFileName);
+                    //创建目录
+                    File fileDir=new File(path);
+                    if (!fileDir.isDirectory()) {
+                        // 如果目录不存在，则创建目录
+                        fileDir.mkdirs();
+                    }
+                    String src=filePath+"/"+localFileName;
+                    //写文件到本地
+                    try {
+                        file.transferTo(localFile);
+                        return src;
+                    } catch (IllegalStateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
             }
-            File dir = new File(uploadPath);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            try {
-                fileName = executeUpload(uploadPath, file,suffix);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //存储目录+文件名称 = 完整文件路径
-            String filePath =  uploadPath + fileName ;
-            return  filePath;
         }
         return null;
     }
-
-    private static String executeUpload(String uploadDir, MultipartFile file,String suffix) throws Exception {
-        //上传文件名
-        String filename = UUID.randomUUID() + suffix;
-        //服务器端保存的文件对象
-        File serverFile = new File(uploadDir + filename);
-
-        if(!serverFile.exists()) {
-            //先得到文件的上级目录，并创建上级目录，在创建文件
-            serverFile.getParentFile().mkdir();
-            try {
-                //创建文件
-                serverFile.createNewFile();
-            } catch (IOException e) {
-
-            }
+    /**
+     * 获取文件后缀
+     * @param originalFileName
+     * @return
+     */
+    public static String getFileSuffix(String originalFileName){
+        int dot=originalFileName.lastIndexOf('.');
+        if((dot>-1)&&(dot<originalFileName.length())){
+            return originalFileName.substring(dot);
         }
-        //将上传的文件写入到服务器端文件内
-        file.transferTo(serverFile);
-        return filename;
+        return originalFileName;
+    }
+
+
+    public static Map<String,String> uploadFile(MultipartFile file,String path) {
+        Map<String,String> map = new HashMap<>();
+        String fileName = file.getOriginalFilename();
+        //String path = System.getProperty("user.dir") + "/uploadFile";
+        File dest = new File(path + "/" + fileName);
+        if (!dest.getParentFile().exists()) { //判断文件父目录是否存在
+            dest.getParentFile().mkdir();
+        }
+        try {
+            file.transferTo(dest); //保存文件
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        String filePath = dest.toString();
+        map.put("fileName",fileName);
+        map.put("filePath",filePath);
+        return map;
     }
 }

@@ -1,8 +1,10 @@
 package com.nnmzkj.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class QualityProManagement {
+public class QualityProManagement implements Serializable {
+
     private Long proId;
 
     private String proName;

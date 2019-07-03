@@ -31,7 +31,7 @@ public interface QualityProManagementMapper {
 
     int selectObjectInfo(@Param("proName") String proName);
 
-    UpdateProjectInfoDto toUpdate(@Param("proId") Long proId);
+   // QualityProManagement toUpdate(@Param("proId") Long proId);
 
     void updateProject(@Param("param") UpdateProjectInfoDto updateProjectInfoDto);
 

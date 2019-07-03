@@ -6,6 +6,7 @@ import com.nnmzkj.common.core.PageMsg;
 import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
+import com.nnmzkj.model.QualityProManagement;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public interface ProjectManagementService {
      */
     void addProject(AddManagementDto addManagementDto);
 
-    Map<String,Object> toUpdate(Long proId);
+    QualityProManagement toUpdate(Long proId);
 
     void updateProject(UpdateProjectInfoDto updateProjectInfoDto);
 

@@ -5,6 +5,7 @@ package com.nnmzkj.dto;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class ObjectManagementListDto implements Serializable {
 
@@ -18,11 +19,13 @@ public class ObjectManagementListDto implements Serializable {
     //建设办名称
     private String buildName;
 
-/*    private BuildDto buildDto;*/
 
     //开工状态
     private Byte startStatus;
 
+    private Date gmtCreate;
+
+    private String remark;
 
     //文件Url
     private String startFile;
@@ -81,5 +84,21 @@ public class ObjectManagementListDto implements Serializable {
 
     public void setBuildName(String buildName) {
         this.buildName = buildName;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

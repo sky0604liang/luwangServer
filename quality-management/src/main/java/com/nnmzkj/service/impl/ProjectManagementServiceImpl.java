@@ -66,6 +66,7 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
         proManagement.setStartFile(addManagementDto.getStartFile());
         proManagement.setGmtCreate(new Date());
         proManagement.setGmtLastModified(new Date());
+        proManagement.setBuildName(addManagementDto.getBuildName());
         proManagementMapper.insertSelective(proManagement);
 
      /*   proManagementMapper.addProject(addManagementDto);
@@ -113,24 +114,19 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     }
 
     @Override
-    public Map<String,Object>  toUpdate(Long proId) {
-        UpdateProjectInfoDto updateProjectInfoDto = proManagementMapper.toUpdate(proId);
-        Map<String,Object> map = new HashMap<>();
-        map.put("projectInfo",updateProjectInfoDto);
-        List<SysAsset> list = sysAssetMapper.getProjectAssetByProId(proId);
-        map.put("sysAssetList",list);
-        return map;
+    public QualityProManagement  toUpdate(Long proId) {
+        return proManagementMapper.selectByPrimaryKey(proId);
     }
 
     @Transactional
     @Override
     public void updateProject(UpdateProjectInfoDto updateProjectInfoDto) {
+        QualityProManagement proManagement = new QualityProManagement();
+        proManagement.setProId(updateProjectInfoDto.getProId());
+        proManagement.setRemark(updateProjectInfoDto.getRemark());
+        proManagement.setStartFile(updateProjectInfoDto.getStartFile());
         //更新项目表
-        proManagementMapper.updateProject(updateProjectInfoDto);
-        //更新机构办
-        if (StringUtil.isNotEmpty(updateProjectInfoDto.getBuildName())){
-            sysOrgMapper.updateOrgNameByOrgId(updateProjectInfoDto.getBuildName(),updateProjectInfoDto.getBuildId());
-        }
+        proManagementMapper.updateByPrimaryKeySelective(proManagement);
     }
 
     @Transactional

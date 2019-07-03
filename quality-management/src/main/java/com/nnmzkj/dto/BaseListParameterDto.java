@@ -16,6 +16,6 @@ public class BaseListParameterDto  {
     /**
      * 每页条数
      */
-    private int pageSize = 5;
+    private int pageSize = 15;
 
 }
