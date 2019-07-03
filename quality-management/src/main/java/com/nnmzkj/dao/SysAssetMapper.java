@@ -19,4 +19,9 @@ public interface SysAssetMapper {
     int updateByPrimaryKey(SysAsset record);
 
     List<SysAsset> getProjectAssetByProId(@Param("proId") Long proId);
+
+
+    void batchDelete(List<Long> list);
+
+    void deleteByProId(@Param("proId") Long proId);
 }

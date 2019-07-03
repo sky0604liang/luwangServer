@@ -34,4 +34,6 @@ public interface QualityProManagementMapper {
     UpdateProjectInfoDto toUpdate(@Param("proId") Long proId);
 
     void updateProject(@Param("param") UpdateProjectInfoDto updateProjectInfoDto);
+
+    void deleteByLogic(List<Long> list);
 }

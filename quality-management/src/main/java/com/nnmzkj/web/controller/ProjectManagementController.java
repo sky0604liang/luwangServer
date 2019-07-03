@@ -23,7 +23,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 
-
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -54,11 +55,10 @@ public class ProjectManagementController {
 
 
     //项目管理列表
-    @CrossOrigin
     @GetMapping("/list")
     @ResponseBody
     public Test getManagementList(BaseListParameterDto pageMsg){
-            Test test = new Test();
+        Test test = new Test();
         if (StringUtils.isEmpty(pageMsg)){
             throw new QualityManagementException(QualityManagementExceptionCode.PAGE_IS_NULL);
         }
@@ -69,14 +69,14 @@ public class ProjectManagementController {
         return test;
     }
 
-    @MyLog(value = "新增项目")  //这里添加了AOP的自定义注解
+    @MyLog(value = "新增项目")
     @PostMapping("/add")
-    public Result addProject(@RequestBody AddManagementDto addManagementDto){
-        if (StringUtils.isEmpty(addManagementDto) && StringUtil.isNotEmpty(addManagementDto.getProName())){
+    public void addProject(@RequestBody AddManagementDto addManagementDto, HttpServletResponse response) throws IOException {
+        if (StringUtils.isEmpty(addManagementDto) && StringUtil.isNotEmpty(addManagementDto.getProName())) {
             throw new QualityManagementException(QualityManagementExceptionCode.OBJECT_NAME_IS_NULL);
         }
         projectManagementService.addProject(addManagementDto);
-        return ResultGenerator.genSuccessResult();
+        response.sendRedirect("/project/management/to/list");
     }
 
 
@@ -92,18 +92,26 @@ public class ProjectManagementController {
         return ResultGenerator.genSuccessResult(map);
     }
 
-    @MyLog(value = "编辑项目信息")  //这里添加了AOP的自定义注解
+    @MyLog(value = "编辑项目信息")
     //编辑项目信息
-    @PostMapping("update/project")
+    @PostMapping("/update/project")
     public void updateProject(@RequestBody UpdateProjectInfoDto updateProjectInfoDto){
         projectManagementService.updateProject(updateProjectInfoDto);
     }
 
-    @MyLog(value = "删除项目文件")  //这里添加了AOP的自定义注解
+    @MyLog(value = "批量删除项目信息")
+    @PostMapping("/batch/delete")
+    public void deleteByLogic(@RequestBody List<Long> list){
+        projectManagementService.deleteByLogic(list);
+    }
+
+
+
+    @MyLog(value = "单个删除删除项目")
     //编辑项目信息
-    @DeleteMapping("delete/asset")
-    public void deleteAsset(Long assetId){
-        sysAssetService.deleteAsset(assetId);
+    @DeleteMapping("/delete")
+    public void deleteAsset(Long proId){
+        projectManagementService.deleteAsset(proId);
     }
 
 }

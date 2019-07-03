@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -44,7 +45,6 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     private SysOrgMapper sysOrgMapper;
 
 
-
     @Value("${global-config.filePath}")
     private String uploadPath;
 
@@ -59,8 +59,17 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
     @Transactional
     @Override
     public void addProject(AddManagementDto addManagementDto) {
-        proManagementMapper.addProject(addManagementDto);
-        Long objectKey = addManagementDto.getProId();
+        QualityProManagement proManagement = new QualityProManagement();
+        proManagement.setProName(addManagementDto.getProName());
+        proManagement.setBuildId(addManagementDto.getBuildId());
+        proManagement.setRemark(addManagementDto.getRemark());
+        proManagement.setStartFile(addManagementDto.getStartFile());
+        proManagement.setGmtCreate(new Date());
+        proManagement.setGmtLastModified(new Date());
+        proManagementMapper.insertSelective(proManagement);
+
+     /*   proManagementMapper.addProject(addManagementDto);
+        Long objectKey = addManagementDto.getProId();*/
 
      /*   MultipartFile blFile = addManagementDto.getBlFile();
         String fileName = "";
@@ -121,6 +130,26 @@ public class ProjectManagementServiceImpl implements ProjectManagementService {
         //更新机构办
         if (StringUtil.isNotEmpty(updateProjectInfoDto.getBuildName())){
             sysOrgMapper.updateOrgNameByOrgId(updateProjectInfoDto.getBuildName(),updateProjectInfoDto.getBuildId());
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteByLogic(List<Long> list) {
+        if (!StringUtils.isEmpty(list) && list.size() >0){
+            proManagementMapper.deleteByLogic(list);
+            //删除资源文件
+            sysAssetMapper.batchDelete(list);
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteAsset(Long proId) {
+        if (!StringUtils.isEmpty(proId)){
+            proManagementMapper.deleteByPrimaryKey(proId);
+            //删除资源文件
+            sysAssetMapper.deleteByProId(proId);
         }
     }
 

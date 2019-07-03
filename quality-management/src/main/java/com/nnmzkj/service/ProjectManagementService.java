@@ -7,6 +7,7 @@ import com.nnmzkj.dto.AddManagementDto;
 import com.nnmzkj.dto.BaseListParameterDto;
 import com.nnmzkj.dto.UpdateProjectInfoDto;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ProjectManagementService {
@@ -27,4 +28,8 @@ public interface ProjectManagementService {
     Map<String,Object> toUpdate(Long proId);
 
     void updateProject(UpdateProjectInfoDto updateProjectInfoDto);
+
+    void deleteByLogic(List<Long> list);
+
+    void deleteAsset(Long proId);
 }
