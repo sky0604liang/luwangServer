@@ -57,26 +57,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               "/**.html",
              "*.css",
              "*.js"
-      )
-      .permitAll() //放行
-      .antMatchers("/user/login"
-              ,"/project/management/add"
-              ,"/project/management/index"
-              ,"/sys/org/list"
-      ) //对登陆注册允许访问
-      .permitAll()
-      .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
-      .permitAll()
-      .anyRequest() //除了以上配置信息，其余都要全部认证与授权
-      .authenticated();
-      //禁用缓存
-      httpSecurity.headers().cacheControl();
-      // 添加jwt 认证token拦截器
-      httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-      //添加自定义未授权和未登录结果返回
-      httpSecurity.exceptionHandling().
-                      accessDeniedHandler(restfulAccessDeniedHandler)
-                      .authenticationEntryPoint(restAuthenticationEntryPoint);
+      ) .permitAll()
+               .and()
+               .authorizeRequests().anyRequest().permitAll();
+
+//      .permitAll() //放行
+//      .antMatchers("/user/login"
+//              ,"/project/management/add"
+//              ,"/project/management/index"
+//              ,"/project/build/index"
+//              ,"/sys/org/list"
+//      ) //对登陆注册允许访问
+//      .permitAll()
+//      .antMatchers(HttpMethod.OPTIONS) //跨域请求会先进行一次options请求
+//      .permitAll()
+//      .anyRequest() //除了以上配置信息，其余都要全部认证与授权
+//      .authenticated();
+//      //禁用缓存
+//      httpSecurity.headers().cacheControl();
+//      // 添加jwt 认证token拦截器
+//      httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+//      //添加自定义未授权和未登录结果返回
+//      httpSecurity.exceptionHandling().
+//                      accessDeniedHandler(restfulAccessDeniedHandler)
+//                      .authenticationEntryPoint(restAuthenticationEntryPoint);
    }
 
    //用于配置UserDetailsService及PasswordEncoder；

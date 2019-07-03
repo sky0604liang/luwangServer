@@ -1,0 +1,240 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/templates/roadNetHtml/favicon.ico">
+    <link href="/static/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/base.css?v=4.1.0" rel="stylesheet">
+    <link href="/static/css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="/static/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/plugins/layer/theme/default/layer.css">
+
+    <!--当前页面需要增加的插件-->
+    <link href="/static/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/static/plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+    <link href="/static/plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+    <link href="/static/plugins/jsTree/style.min.css" rel="stylesheet">
+    <link href="/static/plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+    <link href="/static/plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+    <link href="/static/plugins/chosen/chosen.css" rel="stylesheet">
+
+</head>
+<body class="gray-bg table-height">
+
+<div class="wrapper wrapper-content">
+    <H1>项目建设</H1>
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+                        <button type="button" class="btn  btn-primary" title="添加一个xxx项目xxx区域下的xxx模板" onclick="add()">
+                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                        </button>
+                        <button type="button" class="btn  btn-danger" onclick="remove()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>批量删除
+                        </button>
+                    </div>
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">查询</button>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="searchName" type="text" class="form-control" placeholder="项目名称">
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table id="mytab" class="table table-hover"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <script src="/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/static/plugins/layer/layer.js"></script>
+    <script src="/static/js/content.js?v=1.0.0"></script>
+    <script src="/static/js/ajax-util.js"></script>
+
+    <script src="/static/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/plugins/validate/messages_zh.min.js"></script>
+    <script src="/static/plugins/jsTree/jstree.min.js"></script>
+    <script src="/static/plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+    <script src="/static/plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+    <script src="/static/plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+    <script src="/static/plugins/chosen/chosen.jquery.js"></script>
+
+    <script src="/static/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="/static/plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+
+    <script src="/static/plugins/bootstrap-select/bootstrap-select.js"></script>
+    <!--summernote-->
+    <script src="/static/plugins/summernote/summernote.js"></script>
+    <script src="/static/plugins/summernote/summernote-zh-CN.min.js"></script>
+</div>
+
+<div class="layui-layer-move"></div>
+<script type="text/javascript">
+    $(function() {
+        load();
+    });
+    function load() {
+        $('#mytab').bootstrapTable({
+            // url: 'data.json',
+            url: 'http://192.168.1.6:8080/project/management/list',
+            method : 'get', // 服务器数据的请求方式 get or post
+            iconSize : 'outline',
+            toolbar : '#exampleToolbar',
+            striped : true, // 设置为true会有隔行变色效果
+            cache: false,  //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            dataType : "json", // 服务器返回的数据类型
+            pagination : true, // 设置为true会在底部显示分页条
+            paginationShowPageGo: true, //设置为true在底部显示分页跳转
+            // queryParamsType : "limit",
+            // //设置为limit则会发送符合RESTFull格式的参数
+            singleSelect : false, // 设置为true将禁止多选
+            // contentType : "application/x-www-form-urlencoded",
+            // //发送到服务器的数据编码类型
+            pageSize : 5, // 如果设置了分页，每页数据条数
+            pageNumber : 1, // 如果设置了分布，首页页码
+            //search : true, // 是否显示搜索框
+            showColumns : false, // 是否显示内容下拉框（选择显示的列）
+            sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+            queryParams : function(params) {
+                return {
+                    //说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+                    limit: params.limit,
+                    offset:params.offset,
+                    contractName:$('#searchName').val(),
+
+                };
+            },
+            ajaxOptions:{
+                headers: {"Authorization":'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjcmF6eSIsImNyZWF0ZWQiOjE1NjE5NzM4MTMwMDgsImV4cCI6MTU2MjU3ODYxM30.05FmAf4BfP3YSeJFjw3yISTDhnA_Bp-FPX0TltVZXe3RF8_ujfZYRzaP8sD6EjfW6rzn_Fy3gejDV2ok2rTNCA'}
+            },
+            columns: [
+                {
+                    checkbox : true
+                },
+                {
+                    field : '',
+                    title: '序号',
+                    formatter: function (value, row, index) {
+                        return index+1;
+                    }
+                },
+                {
+                    field: 'proName',
+                    title: '项目名称'
+                },
+                {
+                    field: 'buildName',
+                    title: '建设办名称'
+                },
+                {
+                    field: 'remark',
+                    title: '我是备注'
+                },
+                {
+                    field: 'startFile',
+                    title: '开工文件',
+                    formatter:function (value,row,index) {
+                        return '<a href="#" onclick="edit(\''+ row.proId+ '\')">'+row.startFile+'</a>';
+                    }
+                },
+                {
+                    field: 'status',
+                    title: '开工状态'
+                },
+                {
+                    field: 'time',
+                    title: '添加时间'
+                },
+                {
+                    field: 'operation',
+                    title: '操作',
+                    align: 'center',
+                    valign: 'middle',
+                    formatter : function(value, row, index) {
+                        var proId = row.proId;
+                        console.log(proId);
+                        var e = '<a class="btn btn-primary btn-sm '+'" href="#" mce_href="#" title="编辑" onclick="edit(proId)"><i class="fa fa-edit"></i></a> ';
+                        var d = '<a class="btn btn-warning btn-sm '+'" href="#" title="删除"  mce_href="#" onclick="rmv(\''
+                            + row.proId
+                            + '\')"><i class="fa fa-remove"></i></a> ';
+                        var v = '<a class="btn btn-success btn-sm" href="#" title="浏览"  mce_href="#" onclick="view(\''
+                            + row.proId
+                            + '\')"><i class="fa fa-eye"></i></a> ';
+                        return e + v + d;
+                    }
+                },
+
+            ]
+        });
+    }
+    function reLoad() {
+        $('#exampleTable').bootstrapTable('refresh');
+    }
+    function add() {
+        var addPage = layer.open({
+            type : 2,
+            title : '增加',
+            maxmin : true,
+            shadeClose : false, // 点击遮罩关闭层
+            area : [ '800px', '520px' ],
+            content : 'add.html' // iframe的url
+        });
+    }
+    function edit(id) {
+        var editPage = layer.open({
+            type : 2,
+            title : '编辑',
+            maxmin : true,
+            shadeClose : false, // 点击遮罩关闭层
+            area : [ '800px', '520px' ],
+            content : 'edit.html?' + id // iframe的url
+        });
+    }
+
+    function view(id) {
+        var editPage = layer.open({
+            type : 2,
+            title : '浏览',
+            maxmin : true,
+            shadeClose : false, // 点击遮罩关闭层
+            area : [ '800px', '520px' ],
+            content : 'view?' + id // iframe的url
+        });
+        layer.full(editPage);
+    }
+
+    function remove(id) {
+        layer.confirm('确定要删除选中的记录？', {
+            btn : [ '确定', '取消' ]
+        }, function() {
+            $.ajax({
+                url : prefix+"/remove",
+                type : "post",
+                data : {
+                    'templateId' : id
+                },
+                success : function(r) {
+                    if (r.code==0) {
+                        layer.msg(r.msg);
+                        reLoad();
+                    }else{
+                        layer.msg(r.msg);
+                    }
+                }
+            });
+        })
+    }
+
+</script>
+</body>
+</html>
