@@ -35,7 +35,7 @@
 								<button type="button" class="btn  btn-primary" title="添加" onclick="add()">
 									<i class="fa fa-plus" aria-hidden="true"></i>添加记录
 								</button>
-							</div>							
+							</div>
 						</div>
 						<div class="table-container">
 							<table id="mytab" class="table table-hover"></table>
@@ -51,6 +51,9 @@
 			<script src="../../../js/content.js?v=1.0.0"></script>
 			<script src="../../../js/ajax-util.js"></script>
 
+			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
 			<script src="../../../plugins/validate/jquery.validate.min.js"></script>
 			<script src="../../../plugins/validate/messages_zh.min.js"></script>
 			<script src="../../../plugins/jsTree/jstree.min.js"></script>
@@ -58,12 +61,9 @@
 			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
 			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
 			<script src="../../../plugins/chosen/chosen.jquery.js"></script>
-			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
 			<!--summernote-->
-			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
 			<script src="../../../plugins/summernote/summernote.js"></script>
 			<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
-			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
 		</div>
 
 		<div class="layui-layer-move"></div>
@@ -74,12 +74,11 @@
 					type: 2,
 					title: '添加项目',
 					maxmin: true,
-					shadeClose: false, // 鐐瑰嚮閬僵鍏抽棴灞�
+					shadeClose: false, // 点击遮罩关闭层
 					area: ['800px', '520px'],
-					content: 'addRecord.html' // iframe鐨剈rl
+					content: 'addRecord.html' // iframe的url
 				});
 			}
-			
 
 			function getList() {
 				$('#mytab').bootstrapTable({
@@ -103,12 +102,12 @@
 					sidePagination: "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
 
 					columns: [
-//					{
-//                     checkbox : true,
-//                     title: '全选',
-//                     align: 'center',
-//                  },
-					{
+						//					{
+						//                     checkbox : true,
+						//                     title: '全选',
+						//                     align: 'center',
+						//                  },
+						{
 							field: '',
 							title: '序号',
 							align: 'center',
@@ -149,27 +148,27 @@
 							field: 'note',
 							title: '添加时间',
 							align: 'center',
-						},						
+						},
 						{
 							field: 'price',
 							title: '操作',
 							width: 50,
 							align: 'center',
 							valign: 'middle',
-							formatter : function(value, row, index) {
-							var e = '<a class="btn btn-primary btn-sm '+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-									+ row.id
-									+ '\')"><i class="fa fa-edit"></i></a> ';
-							
-							return e ;
-						}
+							formatter: function(value, row, index) {
+								var e = '<a class="btn btn-primary btn-sm ' + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' +
+									row.id +
+									'\')"><i class="fa fa-edit"></i></a> ';
+
+								return e;
+							}
 						},
 
 					]
 				});
 			}
 			getList();
-		//编辑项目
+			//编辑项目
 			function edit() {
 				var editPage = layer.open({
 					type: 2,
@@ -180,17 +179,17 @@
 					content: 'editRecord.html' // iframe的url
 				});
 			}
-		//发送通知
-    	function send() {
-		    var addPage = layer.open({
-		        type : 2,
-		        title : '发送通知',
-		        maxmin : true,
-		        shadeClose : false, // 点击遮罩关闭层
-		        area : [ '540px', '520px' ],
-		        content : 'send.html' // iframe的url
-		    });
-		}
+			//发送通知
+			function send() {
+				var addPage = layer.open({
+					type: 2,
+					title: '发送通知',
+					maxmin: true,
+					shadeClose: false, // 点击遮罩关闭层
+					area: ['540px', '520px'],
+					content: 'send.html' // iframe的url
+				});
+			}
 		</script>
 	</body>
 

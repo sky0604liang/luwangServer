@@ -1,256 +1,253 @@
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title></title>
-	<meta name="keywords" content="">
-	<meta name="description" content="">
-	<link rel="shortcut icon" href="favicon.ico">
-    <link href="../../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
-    <link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
-    <link href="../../../css/animate.css" rel="stylesheet">
-    <link href="../../../css/base.css?v=4.1.0" rel="stylesheet">
-    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
-    <link href="../../../plugins/toastr/toastr.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../plugins/layer/theme/default/layer.css">
 
-	<!--当前页面需要增加的插件-->
-	<link href="../../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
-	<link href="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
-	<link href="../../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
-	<link href="../../../plugins/jsTree/theme/default/style.min.css" rel="stylesheet">
-	<link href="../../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
-	<link href="../../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
-	<link href="../../../plugins/chosen/chosen.css" rel="stylesheet">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link href="../../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+		<link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="../../../css/animate.css" rel="stylesheet">
+		<link href="../../../css/base.css?v=4.1.0" rel="stylesheet">
+		<link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+		<link href="../../../plugins/toastr/toastr.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="../../../plugins/layer/theme/default/layer.css">
 
-</head>
-<body class="gray-bg table-height">
-    <div class="wrapper wrapper-content">
-		<div class="row">
-            <div class="col-sm-3">
-                <div class="ibox ibox-body">
-					<div class="ibox-title">
-						<h5>选择部门</h5>
-					</div>
-					<div class="ibox-content">
-						<!-- <div id="jstree" class="jstree jstree-1 jstree-default" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="2" aria-busy="false"></div> -->
-						<div id="jstree"></div>
+		<!--当前页面需要增加的插件-->
+		<link href="../../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+		<link href="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+		<link href="../../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+		<link href="../../../plugins/jsTree/theme/default/style.min.css" rel="stylesheet">
+		<link href="../../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+		<link href="../../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+		<link href="../../../plugins/chosen/chosen.css" rel="stylesheet">
+
+	</head>
+
+	<body class="gray-bg table-height">
+		<div class="wrapper wrapper-content">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="ibox ibox-body">
+						<div class="ibox-title">
+							<h5>选择部门</h5>
+						</div>
+						<div class="ibox-content">
+							<!-- <div id="jstree" class="jstree jstree-1 jstree-default" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="2" aria-busy="false"></div> -->
+							<div id="jstree"></div>
+						</div>
 					</div>
 				</div>
-            </div>
+				<div class="col-sm-9">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-left">
+							<button type="button" class="btn  btn-primary" title="添加" onclick="add()">
+	                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+	                        </button>
+							<button type="button" class="btn  btn-danger" title="批量删除" onclick="batchRemove()">
+	                            <i class="fa fa-trash" aria-hidden="true"></i>批量删除
+	                        </button>
+						</div>
+						<div class="columns pull-right">
+							<span>建设办：</span>
+							<span>xxx建设办</span>
+						</div>
 
-            <div class="col-sm-9">
-                <div class="fixed-table-toolbar">
-                    <div class="columns pull-left">
-                        <button type="button" class="btn  btn-primary" title="添加" onclick="add()">
-                            <i class="fa fa-plus" aria-hidden="true"></i>添加
-                        </button>
-                        <button type="button" class="btn  btn-danger" title="批量删除" onclick="batchRemove()">
-                            <i class="fa fa-trash" aria-hidden="true"></i>批量删除
-                        </button>
-                    </div>
-
-                    <div class="columns pull-right">
-                        <span>建设办：</span>
-                        <span>xxx建设办</span>
-                    </div>
-
-                    
-                </div>
-                <div class="table-container">
-					<table id="mytab" class="table table-hover"></table>
+					</div>
+					<div class="table-container">
+						<table id="mytab" class="table table-hover"></table>
+					</div>
 				</div>
-            </div>
-    </div>
-	</div>
-    <div>
-		<script src="../../../js/jquery.min.js?v=2.1.4"></script>
-		<script src="../../../js/bootstrap.min.js?v=3.3.6"></script>		
-		<script src="../../../plugins/layer/layer.js"></script>
-		<script src="../../../js/content.js?v=1.0.0"></script>
-		<script src="../../../js/ajax-util.js"></script>
+			</div>
+		</div>
+		<div>
+			<script src="../../../js/jquery.min.js?v=2.1.4"></script>
+			<script src="../../../js/bootstrap.min.js?v=3.3.6"></script>
+			<script src="../../../plugins/layer/layer.js"></script>
+			<script src="../../../js/content.js?v=1.0.0"></script>
+			<script src="../../../js/ajax-util.js"></script>
+			
+			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
+			<script src="../../../plugins/validate/jquery.validate.min.js"></script>
+			<script src="../../../plugins/validate/messages_zh.min.js"></script>
+			<script src="../../../plugins/jsTree/jstree.min.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+			<script src="../../../plugins/chosen/chosen.jquery.js"></script>			
+			<!--summernote-->
+			<script src="../../../plugins/summernote/summernote.js"></script>
+			<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
+		</div>
 
-		<script src="../../../plugins/validate/jquery.validate.min.js"></script>
-		<script src="../../../plugins/validate/messages_zh.min.js"></script>
-		<script src="../../../plugins/jsTree/jstree.min.js"></script>
-		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
-		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
-		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
-		<script src="../../../plugins/chosen/chosen.jquery.js"></script>
-		
-		<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
-		<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+		<div class="layui-layer-move"></div>
+		<script type="text/javascript">
+			var projectId = null;
+			$(function() {
+				getTreeData();
+				itemLoad();
+				loadmytab(20);
+			});
 
-		<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
-		<!--summernote-->
-		<script src="../../../plugins/summernote/summernote.js"></script>
-		<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
-	</div>
-
-    <div class="layui-layer-move"></div>
-    <script type="text/javascript">
-    	var projectId = null;
-$(function() {
-	getTreeData();
-	itemLoad();
-	loadmytab(20);
-});
-
-function loadmytab(id) {
-	var url0 = "data" + id + ".json";
-	$('#mytab').bootstrapTable('destroy').bootstrapTable(
-					{
-						method : 'get', // 服务器数据的请求方式 get or post
-						url : url0 , // 服务器数据的加载地址
+			function loadmytab(id) {
+				var url0 = "data" + id + ".json";
+				$('#mytab').bootstrapTable('destroy').bootstrapTable({
+					method: 'get', // 服务器数据的请求方式 get or post
+					url: url0, // 服务器数据的加载地址
 					//	showRefresh : true,
 					//	showToggle : true,
 					//	showColumns : true,
-						iconSize : 'outline',
-						toolbar : '#exampleToolbar',
-						striped : true, // 设置为true会有隔行变色效果
-						dataType : "json", // 服务器返回的数据类型
-                        pagination : true, // 设置为true会在底部显示分页条
-                        paginationShowPageGo: true, //设置为true在底部显示分页跳转
-						// queryParamsType : "limit",
-						// //设置为limit则会发送符合RESTFull格式的参数
-						singleSelect : false, // 设置为true将禁止多选
-						// contentType : "application/x-www-form-urlencoded",
-						// //发送到服务器的数据编码类型
-						pageSize : 10, // 如果设置了分页，每页数据条数
-						pageNumber : 1, // 如果设置了分布，首页页码
-						//search : true, // 是否显示搜索框
-						showColumns : false, // 是否显示内容下拉框（选择显示的列）
-						sidePagination : "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
-						queryParams : function(params) {
-							return {
-								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
-								limit: params.limit,
-								offset:params.offset,
-								id:id,
-							};
+					iconSize: 'outline',
+					toolbar: '#exampleToolbar',
+					striped: true, // 设置为true会有隔行变色效果
+					dataType: "json", // 服务器返回的数据类型
+					pagination: true, // 设置为true会在底部显示分页条
+					paginationShowPageGo: true, //设置为true在底部显示分页跳转
+					// queryParamsType : "limit",
+					// //设置为limit则会发送符合RESTFull格式的参数
+					singleSelect: false, // 设置为true将禁止多选
+					// contentType : "application/x-www-form-urlencoded",
+					// //发送到服务器的数据编码类型
+					pageSize: 10, // 如果设置了分页，每页数据条数
+					pageNumber: 1, // 如果设置了分布，首页页码
+					//search : true, // 是否显示搜索框
+					showColumns: false, // 是否显示内容下拉框（选择显示的列）
+					sidePagination: "server", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+					queryParams: function(params) {
+						return {
+							//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+							limit: params.limit,
+							offset: params.offset,
+							id: id,
+						};
+					},
+					// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
+					// queryParamsType = 'limit' ,返回参数必须包含
+					// limit, offset, search, sort, order 否则, 需要包含:
+					// pageSize, pageNumber, searchText, sortName,
+					// sortOrder.
+					// 返回false将会终止请求
+					columns: [{
+							checkbox: true
 						},
-						// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-						// queryParamsType = 'limit' ,返回参数必须包含
-						// limit, offset, search, sort, order 否则, 需要包含:
-						// pageSize, pageNumber, searchText, sortName,
-						// sortOrder.
-						// 返回false将会终止请求
-						columns : [
-								{
-									checkbox : true
-								},
-                                {
-                                    title : '编号',
-                                    align : 'center',
-                                    formatter : function(value, row, index){
-                                        return index + 1;
-                                    }
-                                },
-                                {
-                                    field : 'userDO.demolitionUserName',
-                                    align : 'center',
-                                    title : '姓名',
-                                },
-								{
-									field : 'userDO.identityNo',
-									align : 'center',
-									title : '用户名',
-								},
-                                {
-                                    field : 'recorderName',
-                                    align : 'center',
-                                    title : '邮箱'
-                                },
-                                {
-                                    field : 'recorderWenjian',
-                                    align : 'center',
-                                    title : '手机号码'
-                                },
-                                {
-                                    field : 'recorderWenjian',
-                                    align : 'center',
-                                    title : '状态'
-                                },
-                                {
-                                    field : 'recorderWenjian',
-                                    align : 'center',
-                                    title : '添加时间'
-                                },
-								{
-									title : '操作',
-									field : 'areaId',
-									align : 'center',
-									formatter : function(value, row, index) {
-                                        var e = '<a class="btn btn-primary btn-sm '+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-                                            + row.id
-                                            + '\')"><i class="fa fa-edit"></i></a> ';
+						{
+							title: '编号',
+							align: 'center',
+							formatter: function(value, row, index) {
+								return index + 1;
+							}
+						},
+						{
+							field: 'userDO.demolitionUserName',
+							align: 'center',
+							title: '姓名',
+						},
+						{
+							field: 'userDO.identityNo',
+							align: 'center',
+							title: '用户名',
+						},
+						{
+							field: 'recorderName',
+							align: 'center',
+							title: '邮箱'
+						},
+						{
+							field: 'recorderWenjian',
+							align: 'center',
+							title: '手机号码'
+						},
+						{
+							field: 'recorderWenjian',
+							align: 'center',
+							title: '状态'
+						},
+						{
+							field: 'recorderWenjian',
+							align: 'center',
+							title: '添加时间'
+						},
+						{
+							title: '操作',
+							field: 'areaId',
+							align: 'center',
+							formatter: function(value, row, index) {
+								var e = '<a class="btn btn-primary btn-sm ' + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' +
+									row.id +
+									'\')"><i class="fa fa-edit"></i></a> ';
 
-                                        var d = '<a class="btn btn-warning btn-sm '+'" href="#" title="删除"  mce_href="#" onclick="rmv(\''
-                                            + row.id
-                                            + '\')"><i class="fa fa-remove"></i></a> ';
-                                        return e + d;
-									}
-								} ]
-					});
-}
-function itemLoad() {
-	$('#itemList').bootstrapTable(
-					{
-						method : 'get', // 服务器数据的请求方式 get or post
-						url : "listData.json?h", // 服务器数据的加载地址
+								var d = '<a class="btn btn-warning btn-sm ' + '" href="#" title="删除"  mce_href="#" onclick="rmv(\'' +
+									row.id +
+									'\')"><i class="fa fa-remove"></i></a> ';
+								return e + d;
+							}
+						}
+					]
+				});
+			}
+
+			function itemLoad() {
+				$('#itemList').bootstrapTable({
+					method: 'get', // 服务器数据的请求方式 get or post
+					url: "listData.json?h", // 服务器数据的加载地址
 					//	showRefresh : true,
 					//	showToggle : true,
 					//	showColumns : true,
-						iconSize : 'outline',
-						toolbar : '#itemToolbar',
-						striped : false, // 设置为true会有隔行变色效果
-						dataType : "json", // 服务器返回的数据类型
-                        pagination : true, // 设置为true会在底部显示分页条
-                        paginationShowPageGo: true, //设置为true在底部显示分页跳转
-						// queryParamsType : "limit",
-						// //设置为limit则会发送符合RESTFull格式的参数
-						singleSelect : false, // 设置为true将禁止多选
-						// contentType : "application/x-www-form-urlencoded",
-						// //发送到服务器的数据编码类型
-						pageSize : 2, // 如果设置了分页，每页数据条数
-						pageNumber : 1, // 如果设置了分布，首页页码
-						//search : true, // 是否显示搜索框
-						showColumns : false, // 是否显示内容下拉框（选择显示的列）
-						sidePagination : "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
-						queryParams : function(params) {
-							return {
-								//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
-								limit: params.limit,
-								offset:params.offset,
-							};
+					iconSize: 'outline',
+					toolbar: '#itemToolbar',
+					striped: false, // 设置为true会有隔行变色效果
+					dataType: "json", // 服务器返回的数据类型
+					pagination: true, // 设置为true会在底部显示分页条
+					paginationShowPageGo: true, //设置为true在底部显示分页跳转
+					// queryParamsType : "limit",
+					// //设置为limit则会发送符合RESTFull格式的参数
+					singleSelect: false, // 设置为true将禁止多选
+					// contentType : "application/x-www-form-urlencoded",
+					// //发送到服务器的数据编码类型
+					pageSize: 2, // 如果设置了分页，每页数据条数
+					pageNumber: 1, // 如果设置了分布，首页页码
+					//search : true, // 是否显示搜索框
+					showColumns: false, // 是否显示内容下拉框（选择显示的列）
+					sidePagination: "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+					queryParams: function(params) {
+						return {
+							//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+							limit: params.limit,
+							offset: params.offset,
+						};
+					},
+					onClickRow: function(row, $element, field) {
+						loadmytab(Number(row.id))
+					},
+					// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
+					// queryParamsType = 'limit' ,返回参数必须包含
+					// limit, offset, search, sort, order 否则, 需要包含:
+					// pageSize, pageNumber, searchText, sortName,
+					// sortOrder.
+					// 返回false将会终止请求
+					columns: [{
+							visible: false,
+							field: 'id',
+							title: '编号'
 						},
-						onClickRow:function(row, $element, field){
-							loadmytab(Number(row.id))
-				       },
-						// //请求服务器数据时，你可以通过重写参数的方式添加一些额外的参数，例如 toolbar 中的参数 如果
-						// queryParamsType = 'limit' ,返回参数必须包含
-						// limit, offset, search, sort, order 否则, 需要包含:
-						// pageSize, pageNumber, searchText, sortName,
-						// sortOrder.
-						// 返回false将会终止请求
-						columns : [
-								{
-								    visible :false,
-									field : 'id',
-									title : '编号'
-								},
-								{
-									field : 'itemName',
-									title : '',
-								},
-                                {
-                                    field : 'itemRate',
-                                    title : '',
-                                    align:"right"
-                                } ]
-					});
-}
-function add() {
+						{
+							field: 'itemName',
+							title: '',
+						},
+						{
+							field: 'itemRate',
+							title: '',
+							align: "right"
+						}
+					]
+				});
+			}
+
+			function add() {
 				var addPage = layer.open({
 					type: 2,
 					title: '添加',
@@ -267,110 +264,111 @@ function add() {
 					type: 2,
 					title: '编辑',
 					maxmin: true,
-					shadeClose: false, 
+					shadeClose: false,
 					area: ['800px', '520px'],
-					content: 'edit.html' 
+					content: 'edit.html'
 				});
 
 			}
 
-function rmv(id) {
-	layer.confirm('确定要删除选中的记录？', {
-		btn : [ '确定', '取消' ]
-	}, function() {
-		$.ajax({
-			url : prefix+"/removeOffset",
-			type : "post",
-			data : {
-				'id' : id
-			},
-			success : function(r) {
-				if (r.code==0) {
-					layer.msg(r.msg);
-					reLoad();
-				}else{
-					layer.msg(r.msg);
-				}
+			function rmv(id) {
+				layer.confirm('确定要删除选中的记录？', {
+					btn: ['确定', '取消']
+				}, function() {
+					$.ajax({
+						url: prefix + "/removeOffset",
+						type: "post",
+						data: {
+							'id': id
+						},
+						success: function(r) {
+							if(r.code == 0) {
+								layer.msg(r.msg);
+								reLoad();
+							} else {
+								layer.msg(r.msg);
+							}
+						}
+					});
+				})
 			}
-		});
-	})
-}
 
-function batchRemove() {
-	var rows = $('#mytab').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
-	console.log(rows)
-	if (rows.length == 0) {
-		layer.msg("请选择要删除的数据");
-		return;
-	}
-	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
-		btn : [ '确定', '取消' ]
-	// 按钮
-	}, function() {
-		var ids = new Array();
-		// 遍历所有选择的行数据，取每条数据对应的ID
-		$.each(rows, function(i, row) {
-			ids[i] = row['id'];
-		});
-		$.ajax({
-			type : 'POST',
-			data : {
-				"ids" : ids
-			},
-			url : prefix + '/batchRemove',
-			success : function(r) {
-				if (r.code == 0) {
-					layer.msg(r.msg);
-					reLoad();
-				} else {
-					layer.msg(r.msg);
+			function batchRemove() {
+				var rows = $('#mytab').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+				console.log(rows)
+				if(rows.length == 0) {
+					layer.msg("请选择要删除的数据");
+					return;
 				}
+				layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
+					btn: ['确定', '取消']
+					// 按钮
+				}, function() {
+					var ids = new Array();
+					// 遍历所有选择的行数据，取每条数据对应的ID
+					$.each(rows, function(i, row) {
+						ids[i] = row['id'];
+					});
+					$.ajax({
+						type: 'POST',
+						data: {
+							"ids": ids
+						},
+						url: prefix + '/batchRemove',
+						success: function(r) {
+							if(r.code == 0) {
+								layer.msg(r.msg);
+								reLoad();
+							} else {
+								layer.msg(r.msg);
+							}
+						}
+					});
+				}, function() {
+
+				});
 			}
-		});
-	}, function() {
 
-	});
-}
+			function getTreeData() {
+				$.ajax({
+					type: "GET",
+					url: "tree.json",
+					success: function(tree) {
+						loadTree(tree);
+					}
+				});
+			}
 
-function getTreeData() {
-	$.ajax({
-		type : "GET",
-		url : "tree.json",
-		success : function(tree) {
-			loadTree(tree);
-		}
-	});
-}
-function loadTree(tree) {
-	$('#jstree').jstree({
-		'core' : {
-			'data' : tree
-		},
-		"plugins" : [ "search" ]
-	});
-	$('#jstree').jstree().open_all();
-}
-$('#jstree').on("changed.jstree", function(e, data) {
-	projectId = Number(data.node.id);
-	loadmytab(Number(data.node.id))
-//	if (data.selected == -1) {
-//		var opt = {
-//			query : {
-//				deptId : '',
-//			}
-//		}
-//		$('#exampleTable').bootstrapTable('refresh', opt);
-//	} else {
-//		var opt = {
-//			query : {
-//				deptId : data.selected[0],
-//			}
-//		}
-//		$('#exampleTable').bootstrapTable('refresh',opt);
-//	}
+			function loadTree(tree) {
+				$('#jstree').jstree({
+					'core': {
+						'data': tree
+					},
+					"plugins": ["search"]
+				});
+				$('#jstree').jstree().open_all();
+			}
+			$('#jstree').on("changed.jstree", function(e, data) {
+				projectId = Number(data.node.id);
+				loadmytab(Number(data.node.id))
+				//	if (data.selected == -1) {
+				//		var opt = {
+				//			query : {
+				//				deptId : '',
+				//			}
+				//		}
+				//		$('#exampleTable').bootstrapTable('refresh', opt);
+				//	} else {
+				//		var opt = {
+				//			query : {
+				//				deptId : data.selected[0],
+				//			}
+				//		}
+				//		$('#exampleTable').bootstrapTable('refresh',opt);
+				//	}
 
-})
+			})
+		</script>
+	</body>
 
-    </script>
-</body>
 </html>

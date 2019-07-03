@@ -67,20 +67,20 @@
 			<script src="../../../plugins/layer/layer.js"></script>
 			<script src="../../../js/content.js?v=1.0.0"></script>
 			<script src="../../../js/ajax-util.js"></script>
-
+			
+			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
 			<script src="../../../plugins/validate/jquery.validate.min.js"></script>
 			<script src="../../../plugins/validate/messages_zh.min.js"></script>
 			<script src="../../../plugins/jsTree/jstree.min.js"></script>
 			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
 			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
 			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
-			<script src="../../../plugins/chosen/chosen.jquery.js"></script>
-			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
+			<script src="../../../plugins/chosen/chosen.jquery.js"></script>			
 			<!--summernote-->
-			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
 			<script src="../../../plugins/summernote/summernote.js"></script>
 			<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
-			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
 		</div>
 
 		<div class="layui-layer-move"></div>
@@ -91,9 +91,9 @@
 					type: 2,
 					title: '添加项目',
 					maxmin: true,
-					shadeClose: false, // 鐐瑰嚮閬僵鍏抽棴灞�
+					shadeClose: false, // 点击遮罩关闭层
 					area: ['800px', '520px'],
-					content: 'add.html' // iframe鐨剈rl
+					content: 'add.html' // iframe的url
 				});
 			}
 			//编辑项目
@@ -102,9 +102,9 @@
 					type: 2,
 					title: '编辑项目',
 					maxmin: true,
-					shadeClose: false, // 鐐瑰嚮閬僵鍏抽棴灞�
+					shadeClose: false, // 点击遮罩关闭层
 					area: ['800px', '520px'],
-					content: 'edit.html' // iframe鐨剈rl
+					content: 'edit.html' // iframe的url
 				});
 			}
 
@@ -129,13 +129,12 @@
 					showColumns: false, // 是否显示内容下拉框（选择显示的列）
 					sidePagination: "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
 
-					columns: [
-					{
-                       checkbox : true,
-                       title: '全选',
-                       align: 'center',
-                    },
-					{
+					columns: [{
+							checkbox: true,
+							title: '全选',
+							align: 'center',
+						},
+						{
 							field: '',
 							title: '序号',
 							align: 'center',
@@ -188,50 +187,50 @@
 							width: 200,
 							align: 'center',
 							valign: 'middle',
-							formatter : function(value, row, index) {
-							var e = '<a class="btn btn-primary btn-sm '+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
-									+ row.id
-									+ '\')"><i class="fa fa-edit"></i></a> ';
-							var d = '<a class="btn btn-warning btn-sm '+'" href="#" title="删除"  mce_href="#" onclick="rmv(\''
-									+ row.id
-									+ '\')"><i class="fa fa-remove"></i></a> ';
-							var a = '<a class="btn btn-info btn-sm '+'" href="#" mce_href="#" title="发送通知" onclick="send(\''
-									+ row.id
-									+ '\')"><i class="fa fa-commenting-o"></i></a> ';
-							var b = '<a class="btn btn-success btn-sm '+'" href="#" title="整改记录" mce_href="#" onclick="record(\''
-									+ row.id
-									+ '\')"><i class="fa fa-file-text-o"></i></a> ';
-							return e + d +a +b;
-						}
+							formatter: function(value, row, index) {
+								var e = '<a class="btn btn-primary btn-sm ' + '" href="#" mce_href="#" title="编辑" onclick="edit(\'' +
+									row.id +
+									'\')"><i class="fa fa-edit"></i></a> ';
+								var d = '<a class="btn btn-warning btn-sm ' + '" href="#" title="删除"  mce_href="#" onclick="rmv(\'' +
+									row.id +
+									'\')"><i class="fa fa-remove"></i></a> ';
+								var a = '<a class="btn btn-info btn-sm ' + '" href="#" mce_href="#" title="发送通知" onclick="send(\'' +
+									row.id +
+									'\')"><i class="fa fa-commenting-o"></i></a> ';
+								var b = '<a class="btn btn-success btn-sm ' + '" href="#" title="整改记录" mce_href="#" onclick="record(\'' +
+									row.id +
+									'\')"><i class="fa fa-file-text-o"></i></a> ';
+								return e + d + a + b;
+							}
 						},
 
 					]
 				});
 			}
 			getList();
-		//发送通知
-    	function send() {
-		    var addPage = layer.open({
-		        type : 2,
-		        title : '发送通知',
-		        maxmin : true,
-		        shadeClose : false, // 点击遮罩关闭层
-		        area : [ '540px', '520px' ],
-		        content : 'send.html' // iframe的url
-		    });
-		}
-		//整改记录
-    	function record() {
-		    var recordPage = layer.open({
-		        type : 2,
-		        title : '整改记录',
-		        maxmin : true,
-		        shadeClose : false, // 点击遮罩关闭层
-		        area : [ '540px', '520px' ],
-		        content : 'record.html' // iframe的url
-		    });
-		    layer.full(recordPage);
-		}
+			//发送通知
+			function send() {
+				var addPage = layer.open({
+					type: 2,
+					title: '发送通知',
+					maxmin: true,
+					shadeClose: false, // 点击遮罩关闭层
+					area: ['540px', '520px'],
+					content: 'send.html' // iframe的url
+				});
+			}
+			//整改记录
+			function record() {
+				var recordPage = layer.open({
+					type: 2,
+					title: '整改记录',
+					maxmin: true,
+					shadeClose: false, // 点击遮罩关闭层
+					area: ['540px', '520px'],
+					content: 'record.html' // iframe的url
+				});
+				layer.full(recordPage);
+			}
 		</script>
 	</body>
 

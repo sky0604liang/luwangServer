@@ -41,23 +41,20 @@
 							<table id="itemList" class="table table-hover"></table>
 						</div>
 					</div>
-
 					<div class="ibox-body col-sm-9">
 						<div class="fixed-table-toolbar">
 							<div class="columns pull-left">
 								<button type="button" class="btn  btn-primary" onclick="add()">
-                            <i class="fa fa-plus" aria-hidden="true"></i>添加批文
-                        </button>
+		                            <i class="fa fa-plus" aria-hidden="true"></i>添加批文
+		                        </button>
 								<button type="button" class="btn  btn-danger" onclick="batchRemove()">
-                            <i class="fa fa-trash" aria-hidden="true"></i>批量删除
-                        </button>
+		                            <i class="fa fa-trash" aria-hidden="true"></i>批量删除
+		                        </button>
 							</div>
-
 							<div class="columns pull-right">
 								<span>建设办：</span>
 								<span>xxx建设办</span>
 							</div>
-
 						</div>
 						<div class="table-container">
 							<table id="mytab" class="table table-hover"></table>
@@ -73,6 +70,9 @@
 			<script src="../../js/content.js?v=1.0.0"></script>
 			<script src="../../js/ajax-util.js"></script>
 
+			<script src="../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+			<script src="../../plugins/bootstrap-select/bootstrap-select.js"></script>
 			<script src="../../plugins/validate/jquery.validate.min.js"></script>
 			<script src="../../plugins/validate/messages_zh.min.js"></script>
 			<script src="../../plugins/jsTree/jstree.min.js"></script>
@@ -80,11 +80,6 @@
 			<script src="../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
 			<script src="../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
 			<script src="../../plugins/chosen/chosen.jquery.js"></script>
-
-			<script src="../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
-			<script src="../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
-
-			<script src="../../plugins/bootstrap-select/bootstrap-select.js"></script>
 			<!--summernote-->
 			<script src="../../plugins/summernote/summernote.js"></script>
 			<script src="../../plugins/summernote/summernote-zh-CN.min.js"></script>
@@ -92,117 +87,6 @@
 
 		<div class="layui-layer-move"></div>
 		<script type="text/javascript">
-			var projectId = null;
-			var statusNameMap = {
-				"-1": "已驳回",
-				0: "未提审",
-				10: "待审核",
-				20: "镇已审核",
-				30: "县已审核",
-				40: "业主综合部已审核",
-				45: "业主财务部已审核",
-				50: "合同已打印",
-				55: "结算已驳回",
-				60: "结算未提审",
-				65: "结算待审核",
-				70: "结算县已审核",
-				75: "结算业主综合部已审核",
-				80: "结算业主财务部已审核",
-				85: "结算完成",
-			}
-
-			function loadProject() {
-				var html = "";
-				$.ajax({
-					url: 'listData.json?v',
-					success: function(data) {
-						//加载数据
-						for(var i = 0; i < data.length; i++) {
-							html += '<option value="' + data[i].deptId + '">' + data[i].name + '</option>'
-						}
-						$(".chosen-select").first().append(html);
-						$(".chosen-select").first().chosen({
-							maxHeight: 200
-						});
-					}
-				});
-			}
-
-			// 获取项目下所有区域节点
-			function getTreeData() {
-				if($('#projectId option:selected').index() != 0) {
-					var projectId = $('#projectId option:selected').val();
-					if(projectId == null || projectId == "") {
-						return;
-					}
-					$.ajax({
-						type: "GET",
-						url: "/biz/demolitionArea/userAreaTree/" + projectId,
-						success: function(tree) {
-							loadTree(tree);
-						}
-					});
-				} else {
-					resetAreaTreeDiv();
-				}
-			}
-
-			// 获取项目下所有县级区域节点
-			function getCountyTreeData() {
-				if($('#projectId option:selected').index() != 0) {
-					var projectId = $('#projectId option:selected').val();
-					if(projectId == null || projectId == "") {
-						return;
-					}
-					$.ajax({
-						type: "GET",
-						url: "/biz/demolitionArea/userCountyTree/" + projectId,
-						success: function(tree) {
-							loadTree(tree);
-						}
-					});
-				} else {
-					resetAreaTreeDiv();
-				}
-			}
-
-			function loadTree(tree) {
-				resetAreaTreeDiv();
-				$('#areaTree').jstree({
-					'core': {
-						'data': tree
-					},
-					"plugins": ["search"]
-				});
-
-				$('#areaTree').jstree().open_all();
-				$('#areaTree').on("changed.jstree", function(e, data) {
-					//        if (data.node.id!=-1 && data.node.children.length <= 0) {
-					$("#areaId").val(data.node.id);
-					$('#exampleTable').bootstrapTable('destroy');
-					load();
-					//        }else {
-					//            $("#areaId").val(data.node.id);
-					//            $('#exampleTable').bootstrapTable('destroy');
-					//            load();
-					//            layer.msg("该节点下无记录");
-					//        }
-				});
-			}
-
-			//重置DIV
-			function resetAreaTreeDiv() {
-				$("#areaId").val(0);
-				$("#areaTree").replaceWith("<div id=\"areaTree\"></div>");
-			}
-
-			$(function() {
-				//  loadProject();
-
-				itemLoad();
-				loadmytab(0);
-			});
-
 			function loadmytab(id) {
 				var url0 = "data" + id + ".json";
 				$('#mytab').bootstrapTable('destroy').bootstrapTable({
@@ -385,9 +269,9 @@
 					type: 2,
 					title: '编辑批文',
 					maxmin: true,
-					shadeClose: false, 
+					shadeClose: false,
 					area: ['800px', '520px'],
-					content: 'edit.html' 
+					content: 'edit.html'
 				});
 
 			}
@@ -436,11 +320,10 @@
 				});
 
 			}
-
-			//提审
-			function apply_check(id) {
-
-			}
+			$(function() {
+				itemLoad();
+				loadmytab(0);
+			});
 		</script>
 	</body>
 
