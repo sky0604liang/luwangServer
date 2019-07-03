@@ -84,7 +84,7 @@
     function load() {
         $('#mytab').bootstrapTable({
             // url: 'data.json',
-            url: 'http://localhost:8080/sys/role/list',
+            url: 'http://localhost:8080/sys/menu/list',
             method : 'get', // 服务器数据的请求方式 get or post
             iconSize : 'outline',
             toolbar : '#exampleToolbar',
@@ -120,24 +120,49 @@
                     checkbox : true
                 },
                 {
-                    field: 'roleId',
-                    title: '编号'
+                    field: 'menuId',
+                    title: '菜单ID',
                 },
                 {
-                    field: 'roleName',
-                    title: '角色名称'
+                    field: 'parentId',
+                    title: '菜单级别',
+                    formatter : function(value, row, index) {
+                        return  '<a href="#" class="btn-default">顶级</a>';
+                    }
                 },
                 {
-                    field: 'roleSign',
-                    title: '角色标识'
+                    field: 'name',
+                    title: '菜单名称'
                 },
                 {
-                    field: 'remark',
-                    title: '备注'
+                    field: 'url',
+                    title: '菜单URL'
                 },
                 {
-                    field: 'gmtCreate',
-                    title: '创建时间'
+                    field: 'perms',
+                    title: '授权'
+                },
+                {
+                    field: 'type',
+                    title: '类型',
+                    formatter : function(value, row, index) {
+
+                        if (value == 0){
+                            return  '<a href="#" class="btn-success">目录</a>';
+                        }else if(value == 1){
+                            return  '<a href="#" class="btn-info"><菜单></菜单></a>';
+                        }else{
+                            return  '<a href="#" class="btn-default">按钮</a>';
+                        }
+                    }
+                },
+                {
+                    field: 'icon',
+                    title: '菜单图标'
+                },
+                {
+                    field: 'orderNum',
+                    title: '排序'
                 },
                 {
                     field: 'operation',

@@ -22,6 +22,16 @@
     from sys_menu
     where menu_id = #{menuId,jdbcType=BIGINT}
   </select>
+
+<!--  查询菜单等级 0 顶级，1 一级菜单，以此类推-->
+  <select id="getMenuByParentId"  parameterType="java.lang.Long" resultType="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_menu
+    where parent_id = #{parentId,jdbcType=BIGINT}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_menu
     where menu_id = #{menuId,jdbcType=BIGINT}
