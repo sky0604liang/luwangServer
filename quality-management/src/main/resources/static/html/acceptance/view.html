@@ -1,0 +1,140 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../../css/base.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../plugins/layer/theme/default/layer.css" style="">
+
+	<!--当前页面需要增加的插件-->
+	<link href="../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+	<link href="../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+	<link href="../../plugins/jsTree/style.min.css" rel="stylesheet">
+	<link href="../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+	<link href="../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+	<link href="../../plugins/chosen/chosen.css" rel="stylesheet">
+
+</head>
+<body class="gray-bg table-height">
+    <div class="wrapper wrapper-content">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="table-container">
+						<table id="mytab" class="table table-hover"></table>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+    <div>
+		<script src="../../js/jquery.min.js?v=2.1.4"></script>
+		<script src="../../js/bootstrap.min.js?v=3.3.6"></script>		
+		<script src="../../plugins/layer/layer.js"></script>
+		<script src="../../js/content.js?v=1.0.0"></script>
+		<script src="../../js/ajax-util.js"></script>
+
+		<script src="../../plugins/validate/jquery.validate.min.js"></script>
+		<script src="../../plugins/validate/messages_zh.min.js"></script>
+		<script src="../../plugins/jsTree/jstree.min.js"></script>
+		<script src="../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+		<script src="../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+		<script src="../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+		<script src="../../plugins/chosen/chosen.jquery.js"></script>
+		
+		<script src="../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+
+		<script src="../../plugins/bootstrap-select/bootstrap-select.js"></script>
+		<!--summernote-->
+		<script src="../../plugins/summernote/summernote.js"></script>
+		<script src="../../plugins/summernote/summernote-zh-CN.min.js"></script>
+	</div>
+
+    <div class="layui-layer-move"></div>
+    <script type="text/javascript">
+    	
+function getList() {
+            $('#mytab').bootstrapTable({
+                url: 'data2.json',
+                toolbar: "#toolbar",
+                iconSize : 'outline',
+                striped : true, // 设置为true会有隔行变色效果
+                cache: false,  //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				dataType : "json", // 服务器返回的数据类型
+                pagination : true, // 设置为true会在底部显示分页条
+                paginationShowPageGo: true, //设置为true在底部显示分页跳转
+				// queryParamsType : "limit",
+				// //设置为limit则会发送符合RESTFull格式的参数
+				singleSelect : false, // 设置为true将禁止多选
+				// contentType : "application/x-www-form-urlencoded",
+				// //发送到服务器的数据编码类型
+				pageSize : 5, // 如果设置了分页，每页数据条数
+				pageNumber : 1, // 如果设置了分布，首页页码
+				//search : true, // 是否显示搜索框
+				showColumns : false, // 是否显示内容下拉框（选择显示的列）
+				sidePagination : "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+				queryParams : function(params) {
+					return {
+						//说明：传入后台的参数包括offset开始索引，limit步长，sort排序列，order：desc或者,以及所有列的键值对
+						limit: params.limit,
+						offset:params.offset,
+						contractName:$('#searchName').val(),
+
+					};
+				},
+				ajaxOptions:{
+				    headers: {"Authorization":'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjcmF6eSIsImNyZWF0ZWQiOjE1NjE5NzM4MTMwMDgsImV4cCI6MTU2MjU3ODYxM30.05FmAf4BfP3YSeJFjw3yISTDhnA_Bp-FPX0TltVZXe3RF8_ujfZYRzaP8sD6EjfW6rzn_Fy3gejDV2ok2rTNCA'}
+				},
+                columns: [                   
+                   {
+                       field : '',
+                       title: '序号',
+                       align: 'center',
+                       formatter: function (value, row, index) {
+                           return index+1;
+                       }
+                   },{
+                        field: 'name',
+                        title: '项目名称',
+                        align: 'center',
+                    },
+                    {
+                        field: 'role_identification',
+                        title: '项目阶段',
+                        align: 'center',
+                    },
+                    {
+                        field: 'role_identification',
+                        title: '文件内容',
+                        align: 'center',
+                    },
+                    {
+                        field: 'note',
+                        title: '备注',
+                        align: 'center',
+                    },
+                    {
+                        field: 'note11',
+                        title: '添加时间',
+                        align: 'center',
+                    },
+                    
+
+                ]
+            });
+}
+       
+      getList(); 
+    </script>
+</body>
+</html>

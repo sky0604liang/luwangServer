@@ -1,0 +1,215 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="favicon.ico">
+    <link href="../../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <!--<link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/base.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../plugins/layer/theme/default/layer.css" style="">-->
+
+	<!--当前页面需要增加的插件-->
+<!--	
+	<link href="../../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+	<link href="../../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+	<link href="../../../plugins/jsTree/style.min.css" rel="stylesheet">
+	<link href="../../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+	<link href="../../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+	<link href="../../../plugins/chosen/chosen.css" rel="stylesheet">-->
+	<link rel="stylesheet" type="text/css" href="../../../plugins/yntree/yntree.min.css"/>
+
+</head>
+<body class="roleListAdd">
+    <div class="container">
+		<div class="row ">
+		  	<span class="col-xs-2 row_span" >身份名称</span>
+		    <!--<label for="inputEmail3" class="col-xs-2 control-label">身份名称</label>-->
+		    <div class="col-xs-10">
+		      <input type="email" class="form-control" id="inputEmail3" placeholder="请输入身份名称">
+		    </div>
+		</div>
+		<div class="row">
+			<span class="col-xs-2 row_span" >是否开启</span>
+			<label class="checkbox-inline">
+			  <input type="radio" name="inlineRadioOptions" id="inlineCheckbox1" value="option1"> 开启
+			</label>
+			<label class="checkbox-inline">
+			  <input type="radio" name="inlineRadioOptions" id="inlineCheckbox2" value="option2"> 关闭
+			</label>
+		</div>
+		<div class="row">
+			<span class="col-xs-2 row_span" >权限</span>
+			<div class="col-xs-10">
+		      <div id="tree" class=" fl tree"></div>
+		   </div>
+		</div>
+			<button type="button" class="btn btn-primary roleListAdd_submit">提交</button>
+	</div>
+    <div>
+		<script src="../../../js/jquery.min.js?v=2.1.4"></script>
+		<script src="../../../js/bootstrap.min.js?v=3.3.6"></script>		
+		<script src="../../../plugins/layer/layer.js"></script>
+		<script src="../../../js/content.js?v=1.0.0"></script>
+		<script src="../../../js/ajax-util.js"></script>
+
+		<script src="../../../plugins/validate/jquery.validate.min.js"></script>
+		<script src="../../../plugins/validate/messages_zh.min.js"></script>
+		<script src="../../../plugins/jsTree/jstree.min.js"></script>
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+		<script src="../../../plugins/chosen/chosen.jquery.js"></script>
+		<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
+		<!--summernote-->
+		<script src="../../../plugins/summernote/summernote.js"></script>
+		<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
+		<script src="../../../plugins/yntree/yntree.js" type="text/javascript" charset="utf-8"></script>
+	</div>
+
+    <div class="layui-layer-move"></div>
+    <script type="text/javascript">
+    	
+
+		//树形表格
+		var treeData = {
+			// 复选框change事件
+			onchange: function (input, yntree){
+				console.log(this);
+			},
+			// 是否严格的遵循父子互相关联的做法
+			checkStrictly: true,
+			data:[
+				{
+					name: "系统管理",
+					inputName: "system",
+					value: "系统管理",
+					children: [
+						{
+							// 树名称
+							name: "用户管理",
+							// 复选框的name属性值
+							inputName: "user",
+							// 复选框的值
+							value: "用户管理",
+							// 复选框的class
+							className: "",
+							// 默认是否选中
+							checked: false,
+							// 是否禁用
+							disabled: false,
+							// 额外数据，如果数据是基本数据类型，则会以data-xx="yyy"的形式附加到复选框中
+							datas: {
+
+							},
+							children: [
+								{
+									name: "添加用户",
+									inputName: "user",
+									value: "添加用户",
+									checked: false,
+									disabled: true
+								},
+								{
+									name: "查看用户",
+									inputName: "user",
+									value: "查看用户"
+								},
+								{
+									name: "编辑用户",
+									inputName: "user",
+									value: "编辑用户",
+									disabled: true,
+									children: [
+										{
+											name: "删除用户",
+											inputName: "user",
+											value: "删除用户"
+										},
+										{
+											name: "修改用户",
+											inputName: "user",
+											value: "修改用户",
+											checked: false
+										}
+									]
+								}
+								
+							]
+						},
+						{
+							name: "投诉管理",
+							inputName: "complaint",
+							value: "投诉管理",
+							checked: false,
+							children: [
+								{
+									name: "添加投诉",
+									inputName: "complaint",
+									value: "添加投诉"
+								},
+								{
+									name: "删除投诉",
+									inputName: "complaint",
+									value: "删除投诉"
+								},
+								{
+									name: "编辑投诉",
+									inputName: "complaint",
+									value: "编辑投诉"
+								},
+								{
+									name: "查看投诉",
+									inputName: "complaint",
+									value: "查看投诉"
+								}
+							]
+						}
+					]
+				},
+				{
+					name: "我的公司",
+					inputName: "company",
+					value: "我的公司",
+					children: [
+						{
+							name: "公司管理",
+							inputName: "company manage",
+							value: "公司管理"
+						},
+						{
+							name: "部门管理",
+							inputName: "department manage",
+							value: "部门管理"
+						}
+					]
+				}
+			]
+		};
+		var yntree = new YnTree(document.getElementById("tree"), treeData);
+		//var yntree = new YnTree(document.getElementById("tree"), {data: []});
+		console.log(treeData);
+		//new YnTree(document.getElementById("tree2"), treeData);
+		//yntree.data[0].children[1].children[2].select(true);
+		//yntree.data[0].children[1].select(true);
+		//yntree.data[0].select(true);
+		//yntree.data[0].children[1].children[2].selectUp(true);
+		//console.log(yntree.data[0].children[0].children[1].disable(true));
+		
+		yntree.data[0].spread(true);
+		yntree.data[0].children[1].spread(true);
+		yntree.data[0].children[1].children[2].spread(true);
+
+		yntree.disable("查看用户", true);
+		yntree.disable("添加用户", false);
+		
+    </script>
+</body>
+</html>
