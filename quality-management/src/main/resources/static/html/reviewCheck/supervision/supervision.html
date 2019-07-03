@@ -1,0 +1,239 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title></title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link href="../../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+		<link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="../../../css/animate.css" rel="stylesheet">
+		<link href="../../../css/base.css?v=4.1.0" rel="stylesheet">
+		<link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+		<link href="../../../plugins/toastr/toastr.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="../../../plugins/layer/theme/default/layer.css" style="">
+		<!--当前页面需要增加的插件-->
+		<link href="../../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+		<link href="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+		<link href="../../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+		<link href="../../../plugins/jsTree/theme/default/style.min.css" rel="stylesheet">
+		<link href="../../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+		<link href="../../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+		<link href="../../../plugins/chosen/chosen.css" rel="stylesheet">
+
+	</head>
+
+	<body class="gray-bg table-height">
+		<div class="wrapper wrapper-content">
+			<div class="col-sm-12">
+				<div class="ibox">
+					<div class="ibox-body">
+						<div class="fixed-table-toolbar">
+							<div class="columns pull-left">
+								<button type="button" class="btn  btn-primary" title="添加" onclick="add()">
+								<i class="fa fa-plus" aria-hidden="true"></i>添加
+							</button>
+								<button type="button" class="btn  btn-danger" title="批量删除" onclick="remove()">
+                                <i class="fa fa-trash" aria-hidden="true"></i>批量删除
+                            </button>
+							</div>
+							<div class="columns pull-right">
+								<button class="btn btn-success" style="margin-left: 15px;" onclick="reLoad()">查询</button>
+							</div>
+
+							<div class="columns pull-right col-md-2 nopadding">
+								<input id="searchName" type="text" class="form-control" placeholder="请输入项目名称">
+							</div>
+							<div class="columns pull-right col-md-2 nopadding">
+								<select class="fourCheck_head_select" placeholder='请选择项目' value="">
+									<option>请选择建设办</option>
+									<option>江南建设办</option>
+									<option>西乡塘建设办</option>
+								</select>
+							</div>
+						</div>
+						<div class="table-container">
+							<table id="mytab" class="table table-hover"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<script src="../../../js/jquery.min.js?v=2.1.4"></script>
+			<script src="../../../js/bootstrap.min.js?v=3.3.6"></script>
+			<script src="../../../plugins/layer/layer.js"></script>
+			<script src="../../../js/content.js?v=1.0.0"></script>
+			<script src="../../../js/ajax-util.js"></script>
+
+			<script src="../../../plugins/validate/jquery.validate.min.js"></script>
+			<script src="../../../plugins/validate/messages_zh.min.js"></script>
+			<script src="../../../plugins/jsTree/jstree.min.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+			<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+			<script src="../../../plugins/chosen/chosen.jquery.js"></script>
+			<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
+			<!--summernote-->
+			<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+			<script src="../../../plugins/summernote/summernote.js"></script>
+			<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
+			<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
+		</div>
+
+		<div class="layui-layer-move"></div>
+		<script type="text/javascript">
+			//添加项目
+			function add() {
+				var addPage = layer.open({
+					type: 2,
+					title: '添加项目',
+					maxmin: true,
+					shadeClose: false, // 鐐瑰嚮閬僵鍏抽棴灞�
+					area: ['800px', '520px'],
+					content: 'add.html' // iframe鐨剈rl
+				});
+			}
+			//编辑项目
+			function edit() {
+				var editPage = layer.open({
+					type: 2,
+					title: '编辑项目',
+					maxmin: true,
+					shadeClose: false, // 鐐瑰嚮閬僵鍏抽棴灞�
+					area: ['800px', '520px'],
+					content: 'edit.html' // iframe鐨剈rl
+				});
+			}
+
+			function getList() {
+				$('#mytab').bootstrapTable({
+					url: 'data1.json',
+					queryParams: 'queryParams',
+					toolbar: "#toolbar",
+					iconSize: 'outline',
+					striped: true, // 设置为true会有隔行变色效果
+					dataType: "json", // 服务器返回的数据类型
+					pagination: true, // 设置为true会在底部显示分页条
+					paginationShowPageGo: true, //设置为true在底部显示分页跳转
+					// queryParamsType : "limit",
+					// //设置为limit则会发送符合RESTFull格式的参数
+					singleSelect: false, // 设置为true将禁止多选
+					// contentType : "application/x-www-form-urlencoded",
+					// //发送到服务器的数据编码类型
+					pageSize: 5, // 如果设置了分页，每页数据条数
+					pageNumber: 1, // 如果设置了分布，首页页码
+					//search : true, // 是否显示搜索框
+					showColumns: false, // 是否显示内容下拉框（选择显示的列）
+					sidePagination: "client", // 设置在哪里进行分页，可选值为"client" 或者 "server"
+
+					columns: [
+					{
+                       checkbox : true,
+                       title: '全选',
+                       align: 'center',
+                    },
+					{
+							field: '',
+							title: '序号',
+							align: 'center',
+							formatter: function(value, row, index) {
+								return index + 1;
+							}
+						}, {
+							field: 'name',
+							title: '项目名称',
+							align: 'center',
+						},
+						{
+							field: 'role_identification',
+							title: '建设办',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '质检站检测报告',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '存在问题',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '保证金',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '反馈状态',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '整改状态',
+							align: 'center',
+						},
+						{
+							field: 'note',
+							title: '添加时间',
+							align: 'center',
+						},
+						{
+							field: 'price',
+							title: '操作',
+							width: 200,
+							align: 'center',
+							valign: 'middle',
+							formatter : function(value, row, index) {
+							var e = '<a class="btn btn-primary btn-sm '+'" href="#" mce_href="#" title="编辑" onclick="edit(\''
+									+ row.id
+									+ '\')"><i class="fa fa-edit"></i></a> ';
+							var d = '<a class="btn btn-warning btn-sm '+'" href="#" title="删除"  mce_href="#" onclick="rmv(\''
+									+ row.id
+									+ '\')"><i class="fa fa-remove"></i></a> ';
+							var a = '<a class="btn btn-info btn-sm '+'" href="#" mce_href="#" title="发送通知" onclick="send(\''
+									+ row.id
+									+ '\')"><i class="fa fa-commenting-o"></i></a> ';
+							var b = '<a class="btn btn-success btn-sm '+'" href="#" title="整改记录" mce_href="#" onclick="record(\''
+									+ row.id
+									+ '\')"><i class="fa fa-file-text-o"></i></a> ';
+							return e + d +a +b;
+						}
+						},
+
+					]
+				});
+			}
+			getList();
+		//发送通知
+    	function send() {
+		    var addPage = layer.open({
+		        type : 2,
+		        title : '发送通知',
+		        maxmin : true,
+		        shadeClose : false, // 点击遮罩关闭层
+		        area : [ '540px', '520px' ],
+		        content : 'send.html' // iframe的url
+		    });
+		}
+
+		//整改记录
+    	function record() {
+		    var recordPage = layer.open({
+		        type : 2,
+		        title : '整改记录',
+		        maxmin : true,
+		        shadeClose : false, // 点击遮罩关闭层
+		        area : [ '540px', '520px' ],
+		        content : 'record.html' // iframe的url
+		    });
+		    layer.full(recordPage);
+		}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,240 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<link rel="shortcut icon" href="favicon.ico">
+    <link href="../../../css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../../css/animate.css" rel="stylesheet">
+    <link href="../../../css/base.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../css/style.css?v=4.1.0" rel="stylesheet">
+    <link href="../../../plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../plugins/layer/theme/default/layer.css" style="">
+
+	<!--当前页面需要增加的插件-->
+	<link href="../../../plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+	<link href="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.css" rel="stylesheet">
+	<link href="../../../plugins/bootstrap-select/bootstrap-select.css" rel="stylesheet">
+	<link href="../../../plugins/jsTree/theme/default/style.min.css" rel="stylesheet">
+	<link href="../../../plugins/jqTreeGrid/jquery.treegrid.css" rel="stylesheet">
+	<link href="../../../plugins/summernote/summernote-0.8.8.css" rel="stylesheet">
+	<link href="../../../plugins/chosen/chosen.css" rel="stylesheet">
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<div class="ibox-body">
+					<div class="fixed-table-toolbar">
+						<div class="columns pull-right">
+							<button class="btn btn-success" onclick="reLoad()">查询</button>
+						</div>
+						<div class="columns pull-right col-md-2 nopadding">
+							<input id="searchName" type="text" class="form-control" placeholder="机构名称">
+						</div>
+					</div>					
+					<div class="table-container">
+						<table id="exampleTable" data-mobile-responsive="true" class="table table-hover treegrid-table table-bordered table-striped"></table>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <div>
+		<script src="../../../js/jquery.min.js?v=2.1.4"></script>
+		<script src="../../../js/bootstrap.min.js?v=3.3.6"></script>		
+		<script src="../../../plugins/layer/layer.js"></script>
+		<script src="../../../js/content.js?v=1.0.0"></script>
+		<script src="../../../js/ajax-util.js"></script>
+
+		<script src="../../../plugins/validate/jquery.validate.min.js"></script>
+		<script src="../../../plugins/validate/messages_zh.min.js"></script>
+
+		
+		<script src="../../../plugins/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="../../../plugins/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+
+		
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.min.js"></script>
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.extension.js"></script>
+		<script src="../../../plugins/jsTree/jstree.min.js"></script>
+		<script src="../../../plugins/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script>
+
+		<script src="../../../plugins/chosen/chosen.jquery.js"></script>
+
+		<script src="../../../plugins/bootstrap-select/bootstrap-select.js"></script>
+		<!--summernote-->
+		<script src="../../../plugins/summernote/summernote.js"></script>
+		<script src="../../../plugins/summernote/summernote-zh-CN.min.js"></script>
+	</div>
+
+	<div>
+		<script src="../../../plugins/bootstrap-table-pagejump/bootstrap-table-pagejump.js"></script>
+		<link href="../../../plugins/bootstrap-editable/bootstrap-editable.css" rel="stylesheet">
+		<!--summernote-->
+	</div>
+
+    <div class="layui-layer-move"></div>
+    <script type="text/javascript">
+
+$(function() {
+	load();
+});
+
+function load() {
+	$('#exampleTable')
+		.bootstrapTreeTable(
+			{
+				id : 'deptId',
+				code : 'deptId',
+                parentCode : 'parentId',
+				type : "get", // 请求数据的ajax类型
+				url : 'data.json?v', // 请求数据的ajax的url
+				ajaxParams : {
+                    name: $("#searchName").val()
+				}, // 请求数据的ajax的data属性
+				expandColumn : '1', // 在哪一列上面显示展开按钮
+				striped : true, // 是否各行渐变色
+				bordered : true, // 是否显示边框
+				expandAll : false, // 是否全部展开
+				cache: false,  //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+				// toolbar : '#exampleToolbar',
+				columns : [
+					{
+						title : 'ID',
+						field : 'deptId',
+						visible : false,
+						align : 'center',
+						valign : 'center',
+						width : '50px',
+						checkbox : true
+					},
+					{
+						field : 'name',
+						title : '名称',
+                        valign : 'center',
+						witth :20
+					},
+					{
+						field : 'orderNum',
+						title : '排序',
+                        align : 'center',
+                        valign : 'center',
+					},
+					{
+						title : '操作',
+						field : 'id',
+						align : 'center',
+                        valign : 'center',
+						formatter : function(item, index) {
+							var e = '<a class="btn btn-primary btn-sm ' + '" href="#" mce_href="#" title="编辑" onclick="edit(\''
+								+ item.deptId
+								+ '\')"><i class="fa fa-edit"></i></a> ';
+							var a = '<a class="btn btn-primary btn-sm ' +'" href="#" title="增加下級"  mce_href="#" onclick="add(\''
+								+ item.deptId
+								+ '\')"><i class="fa fa-plus"></i></a> ';
+							var d = '<a class="btn btn-warning btn-sm ' +'" href="#" title="删除"  mce_href="#" onclick="removeone(\''
+								+ item.deptId
+								+ '\')"><i class="fa fa-remove"></i></a> ';
+							return e + a + d;
+						}
+					} ]
+			});
+}
+function reLoad() {
+	load();
+}
+
+function newProject(){
+	layer.open({
+		type : 2,
+		title : '新建项目',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : prefix + '/newProject/'
+	});
+}
+
+function add(pId) {
+	layer.open({
+		type : 2,
+		title : '增加',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : prefix + '/add/' + pId
+	});
+}
+function edit(id) {
+	layer.open({
+		type : 2,
+		title : '编辑',
+		maxmin : true,
+		shadeClose : false, // 点击遮罩关闭层
+		area : [ '800px', '520px' ],
+		content : prefix + '/edit/' + id // iframe的url
+	});
+}
+function removeone(id) {
+	layer.confirm('确定要删除选中的记录？', {
+		btn : [ '确定', '取消' ]
+	}, function() {
+		$.ajax({
+			url : prefix + "/remove",
+			type : "post",
+			data : {
+				'deptId' : id
+			},
+			success : function(r) {
+				if (r.code == 0) {
+					layer.msg(r.msg);
+					reLoad();
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	})
+}
+
+function resetPwd(id) {}
+function batchRemove() {
+	var rows = $('#exampleTable').bootstrapTable('getSelections'); // 返回所有选择的行，当没有选择的记录时，返回一个空数组
+	if (rows.length == 0) {
+		layer.msg("请选择要删除的数据");
+		return;
+	}
+	layer.confirm("确认要删除选中的'" + rows.length + "'条数据吗?", {
+		btn : [ '确定', '取消' ]
+	// 按钮
+	}, function() {
+		var ids = new Array();
+		// 遍历所有选择的行数据，取每条数据对应的ID
+		$.each(rows, function(i, row) {
+			ids[i] = row['deptId'];
+		});
+		$.ajax({
+			type : 'POST',
+			data : {
+				"ids" : ids
+			},
+			url : prefix + '/batchRemove',
+			success : function(r) {
+				if (r.code == 0) {
+					layer.msg(r.msg);
+					reLoad();
+				} else {
+					layer.msg(r.msg);
+				}
+			}
+		});
+	}, function() {});
+}
+    </script>
+</body>
+</html>
