@@ -19,6 +19,7 @@ public class projectBuildController {
     public String toList() {
         return "/roadNetHtml/page/projectBuild/buildList.html";
     }
+
     @GetMapping("/tolist")
     public String tolist() {
         return "/roadNetHtml/page/projectBuild/buildList.html";
